@@ -1,6 +1,22 @@
 Domain: domains/blocksworld/domain.pddl
 Problem: domains/blocksworld/p01.pddl
 Heuristic: max
+Parsing domain: 'domains/blocksworld/domain.pddl' problem 'domains/blocksworld/p01.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 40
+Initial H-val: 2
+# Expansions : 28
+Plan Length  : 6
+Search Time  : 0.0015978813171386719
+Time: 0.0024137496948242188s
+plan:
+(pick-up b)
+(stack b a)
+(pick-up c)
+(stack c b)
+(pick-up d)
+(stack d c)
 ✓ Plan found
 Plan:
 1: action: pick-up
@@ -12,10 +28,10 @@ Plan:
 
 2: action: stack
   parameters: ('b', 'a')
-  positive_preconditions: [('holding', 'b'), ('clear', 'a')]
+  positive_preconditions: [('clear', 'a'), ('holding', 'b')]
   negative_preconditions: []
-  add_effects: [('handempty',), ('clear', 'b'), ('on', 'b', 'a')]
-  del_effects: [('holding', 'b'), ('clear', 'a')]
+  add_effects: [('handempty',), ('on', 'b', 'a'), ('clear', 'b')]
+  del_effects: [('clear', 'a'), ('holding', 'b')]
 
 3: action: pick-up
   parameters: ('c',)
@@ -26,25 +42,25 @@ Plan:
 
 4: action: stack
   parameters: ('c', 'b')
-  positive_preconditions: [('holding', 'c'), ('clear', 'b')]
+  positive_preconditions: [('clear', 'b'), ('holding', 'c')]
   negative_preconditions: []
   add_effects: [('handempty',), ('clear', 'c'), ('on', 'c', 'b')]
-  del_effects: [('holding', 'c'), ('clear', 'b')]
+  del_effects: [('clear', 'b'), ('holding', 'c')]
 
 5: action: pick-up
   parameters: ('d',)
-  positive_preconditions: [('clear', 'd'), ('handempty',), ('ontable', 'd')]
+  positive_preconditions: [('handempty',), ('clear', 'd'), ('ontable', 'd')]
   negative_preconditions: []
   add_effects: [('holding', 'd')]
-  del_effects: [('clear', 'd'), ('handempty',), ('ontable', 'd')]
+  del_effects: [('handempty',), ('clear', 'd'), ('ontable', 'd')]
 
 6: action: stack
   parameters: ('d', 'c')
   positive_preconditions: [('holding', 'd'), ('clear', 'c')]
   negative_preconditions: []
-  add_effects: [('clear', 'd'), ('handempty',), ('on', 'd', 'c')]
+  add_effects: [('handempty',), ('clear', 'd'), ('on', 'd', 'c')]
   del_effects: [('holding', 'd'), ('clear', 'c')]
 
-# Expansions : 0
+# Expansions : 28
 Plan Length : 6
-Search Time : 0.0
+Search Time : 0.0015978813171386719

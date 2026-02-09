@@ -1,16 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
+
+HEURISTIC="${1:-max}"
+SPLIT="${2:-all}"  # all | train | test
+
 cd "$(dirname "$0")/.."
 
-for i in 01 02 03 04 05; do
-  for h in add ff max; do
-    echo "Running blocksworld p$i with $h"
-    python -m planner.run_single \
-      --domain domains/blocksworld/domain.pddl \
-      --problem domains/blocksworld/p${i}.pddl \
-      --heuristic $h \
-      > experiments/blocksworld_p${i}_${h}.txt
-  done
+if [ "$SPLIT" = "train" ]; then
+  INSTANCES="01 02 03"
+elif [ "$SPLIT" = "test" ]; then
+  INSTANCES="04 05"
+else
+  INSTANCES="01 02 03 04 05"
+fi
+
+for i in $INSTANCES; do
+  echo "Running blocksworld p${i} with ${HEURISTIC} (${SPLIT} set)"
+  python planner/run_single.py \
+    --domain domains/blocksworld/domain.pddl \
+    --problem domains/blocksworld/p${i}.pddl \
+    --heuristic "${HEURISTIC}" \
+    --verbose \
+    > "experiments/blocksworld_p${i}_${HEURISTIC}.txt"
 done
 
 python analysis/summarise_blocksworld.py

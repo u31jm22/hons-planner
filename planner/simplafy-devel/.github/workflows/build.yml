@@ -1,0 +1,45 @@
+name: build
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      matrix:
+        python-version: ['3.11']
+      fail-fast: false
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    # if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    # - run: |  # Only use this if we are testing tikz
+    #     ls -las
+    #     sudo apt-get install texlive-xetex
+    - run: |
+        pip install -r requirements-dev.txt
+    # Tests
+    - run: | 
+        echo "PYTHONPATH=`pwd`/src" >> $GITHUB_ENV
+    # - run: python -m unittest discover
+    #   working-directory: src
+    - run: coverage run -m unittest discover
+      working-directory: src
+    - run: coverage xml
+      working-directory: src
+    # Examples
+    # - run: python pddl/action.py
+    #   working-directory: src
+    # - run: python pddl/pddl_parser.py    examples/dinner/dinner.pddl examples/dinner/pb1.pddl
+    #   working-directory: src
+    # - run: python pddl/pddl_planner.py examples/dinner/dinner.pddl examples/dinner/pb1.pddl
+    #   working-directory: src
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: coverage.xml
+        fail_ci_if_error: true

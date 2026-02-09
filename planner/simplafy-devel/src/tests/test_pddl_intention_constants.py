@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+
+dwr = "examples/intention/dwr/dwr.pddl"
+pb1_dwr = "examples/intention/dwr/pb1.pddl"
+pb2_dwr = "examples/intention/dwr/pb2.pddl"
+dwr_folder = "examples/intention/dwr"
+
+dinner = "examples/intention/dinner/dinner.pddl"
+pb1_dinner = "examples/intention/dinner/pb1int.pddl"
+
+satellite = "examples/intention/satellite/domain.pddl"
+pb1_satellite = "examples/intention/satellite/pb1.pddl"
+pb2_satellite = "examples/intention/satellite/pb2.pddl"
+
+blk = "examples/intention/blocksworld/blocksworld.pddl"
+pb1_blk = "examples/intention/blocksworld/pb1.pddl"
+pb2_blk = "examples/intention/blocksworld/pb2.pddl"
+pb3_blk = "examples/intention/blocksworld/pb3.pddl"
+pb4_blk = "examples/intention/blocksworld/pb4.pddl"
+pb5_blk = "examples/intention/blocksworld/pb5.pddl"
+pb6_blk = "examples/intention/blocksworld/pb6.pddl"
+pb7_blk = "examples/intention/blocksworld/pb7.pddl"
+pb8_blk = "examples/intention/blocksworld/pb8.pddl"
+pb9_blk = "examples/intention/blocksworld/pb9.pddl"
+blk_folder = "examples/intention/blocksworld"
+
+prodcell = "examples/intention/prodcell/domain.pddl"
+prodcell_pb1 = "examples/intention/prodcell/pb1.pddl"
+prodcell_pb2 = "examples/intention/prodcell/pb2.pddl"
+prodcell_pb4 = "examples/intention/prodcell/pb4.pddl"
+prodcell_gp0 = "examples/intention/prodcell/prodcell-test-0"
+prodcell_gp0_dom = "examples/intention/prodcell/prodcell-test-0/domain.pddl"
+prodcell_gp0_pb1 = "examples/intention/prodcell/prodcell-test-0/pb1.pddl"
+prodcell_gp0_pb2 = "examples/intention/prodcell/prodcell-test-0/pb3.pddl"
+prodcell_gp0_pb3 = "examples/intention/prodcell/prodcell-test-0/pb3.pddl"
+prodcell_gp1 = "examples/intention/prodcell/prodcell-test-1"
+prodcell_gp2 = "examples/intention/prodcell/prodcell-test-2"

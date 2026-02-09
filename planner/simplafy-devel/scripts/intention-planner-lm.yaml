@@ -1,0 +1,8 @@
+planner_class: pddl.intention.IntentionPlanner
+heuristic_class: pddl.landmarkh.NaiveLandmarkHeuristic
+planner_pars: {
+
+}
+heuristic_pars: {
+
+}

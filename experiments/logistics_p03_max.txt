@@ -6,10 +6,10 @@ Grounding
 Grounding time: 0 s
 Number of actions: 212
 Initial H-val: 6
-# Expansions : 15053
+# Expansions : 8783
 Plan Length  : 15
-Search Time  : 1.8531670570373535
-Time: 1.8568320274353027s
+Search Time  : 1.7627508640289307
+Time: 1.767091989517212s
 plan:
 (load-truck obj11 tru1 pos1)
 (drive-truck tru1 pos1 apt1 cit1)
@@ -30,14 +30,14 @@ plan:
 Plan:
 1: action: load-truck
   parameters: ('obj11', 'tru1', 'pos1')
-  positive_preconditions: [('at', 'obj11', 'pos1'), ('at', 'tru1', 'pos1')]
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('at', 'obj11', 'pos1')]
   negative_preconditions: []
   add_effects: [('in', 'obj11', 'tru1')]
   del_effects: [('at', 'obj11', 'pos1')]
 
 2: action: drive-truck
   parameters: ('tru1', 'pos1', 'apt1', 'cit1')
-  positive_preconditions: [('at', 'tru1', 'pos1'), ('in-city', 'apt1', 'cit1'), ('in-city', 'pos1', 'cit1')]
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('in-city', 'pos1', 'cit1'), ('in-city', 'apt1', 'cit1')]
   negative_preconditions: []
   add_effects: [('at', 'tru1', 'apt1')]
   del_effects: [('at', 'tru1', 'pos1')]
@@ -51,7 +51,7 @@ Plan:
 
 4: action: load-truck
   parameters: ('obj21', 'tru2', 'pos2')
-  positive_preconditions: [('at', 'obj21', 'pos2'), ('at', 'tru2', 'pos2')]
+  positive_preconditions: [('at', 'tru2', 'pos2'), ('at', 'obj21', 'pos2')]
   negative_preconditions: []
   add_effects: [('in', 'obj21', 'tru2')]
   del_effects: [('at', 'obj21', 'pos2')]
@@ -65,7 +65,7 @@ Plan:
 
 6: action: drive-truck
   parameters: ('tru2', 'pos2', 'apt2', 'cit2')
-  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'pos2'), ('in-city', 'apt2', 'cit2')]
+  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('in-city', 'apt2', 'cit2'), ('at', 'tru2', 'pos2')]
   negative_preconditions: []
   add_effects: [('at', 'tru2', 'apt2')]
   del_effects: [('at', 'tru2', 'pos2')]
@@ -93,21 +93,21 @@ Plan:
 
 10: action: load-truck
   parameters: ('obj11', 'tru2', 'apt2')
-  positive_preconditions: [('at', 'tru2', 'apt2'), ('at', 'obj11', 'apt2')]
+  positive_preconditions: [('at', 'obj11', 'apt2'), ('at', 'tru2', 'apt2')]
   negative_preconditions: []
   add_effects: [('in', 'obj11', 'tru2')]
   del_effects: [('at', 'obj11', 'apt2')]
 
 11: action: load-airplane
   parameters: ('obj21', 'apn1', 'apt2')
-  positive_preconditions: [('at', 'apn1', 'apt2'), ('at', 'obj21', 'apt2')]
+  positive_preconditions: [('at', 'obj21', 'apt2'), ('at', 'apn1', 'apt2')]
   negative_preconditions: []
   add_effects: [('in', 'obj21', 'apn1')]
   del_effects: [('at', 'obj21', 'apt2')]
 
 12: action: drive-truck
   parameters: ('tru2', 'apt2', 'pos2', 'cit2')
-  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'apt2'), ('in-city', 'apt2', 'cit2')]
+  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('in-city', 'apt2', 'cit2'), ('at', 'tru2', 'apt2')]
   negative_preconditions: []
   add_effects: [('at', 'tru2', 'pos2')]
   del_effects: [('at', 'tru2', 'apt2')]
@@ -121,7 +121,7 @@ Plan:
 
 14: action: unload-truck
   parameters: ('obj11', 'tru2', 'pos2')
-  positive_preconditions: [('at', 'tru2', 'pos2'), ('in', 'obj11', 'tru2')]
+  positive_preconditions: [('in', 'obj11', 'tru2'), ('at', 'tru2', 'pos2')]
   negative_preconditions: []
   add_effects: [('at', 'obj11', 'pos2')]
   del_effects: [('in', 'obj11', 'tru2')]
@@ -133,6 +133,6 @@ Plan:
   add_effects: [('at', 'obj21', 'apt1')]
   del_effects: [('in', 'obj21', 'apn1')]
 
-# Expansions : 0
+# Expansions : 8783
 Plan Length : 15
-Search Time : 0.0
+Search Time : 1.7627508640289307

@@ -1,20 +1,36 @@
 Domain: domains/blocksworld/domain.pddl
 Problem: domains/blocksworld/p03.pddl
 Heuristic: max
+Parsing domain: 'domains/blocksworld/domain.pddl' problem 'domains/blocksworld/p03.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 40
+Initial H-val: 3
+# Expansions : 24
+Plan Length  : 6
+Search Time  : 0.0011882781982421875
+Time: 0.002299785614013672s
+plan:
+(unstack c b)
+(stack c d)
+(pick-up b)
+(stack b c)
+(pick-up a)
+(stack a b)
 ✓ Plan found
 Plan:
 1: action: unstack
   parameters: ('c', 'b')
-  positive_preconditions: [('on', 'c', 'b'), ('handempty',), ('clear', 'c')]
+  positive_preconditions: [('handempty',), ('clear', 'c'), ('on', 'c', 'b')]
   negative_preconditions: []
   add_effects: [('holding', 'c'), ('clear', 'b')]
-  del_effects: [('on', 'c', 'b'), ('handempty',), ('clear', 'c')]
+  del_effects: [('handempty',), ('clear', 'c'), ('on', 'c', 'b')]
 
 2: action: stack
   parameters: ('c', 'd')
   positive_preconditions: [('holding', 'c'), ('clear', 'd')]
   negative_preconditions: []
-  add_effects: [('clear', 'c'), ('handempty',), ('on', 'c', 'd')]
+  add_effects: [('handempty',), ('clear', 'c'), ('on', 'c', 'd')]
   del_effects: [('holding', 'c'), ('clear', 'd')]
 
 3: action: pick-up
@@ -26,25 +42,25 @@ Plan:
 
 4: action: stack
   parameters: ('b', 'c')
-  positive_preconditions: [('clear', 'c'), ('holding', 'b')]
+  positive_preconditions: [('holding', 'b'), ('clear', 'c')]
   negative_preconditions: []
   add_effects: [('handempty',), ('clear', 'b'), ('on', 'b', 'c')]
-  del_effects: [('clear', 'c'), ('holding', 'b')]
+  del_effects: [('holding', 'b'), ('clear', 'c')]
 
 5: action: pick-up
   parameters: ('a',)
-  positive_preconditions: [('ontable', 'a'), ('handempty',), ('clear', 'a')]
+  positive_preconditions: [('handempty',), ('clear', 'a'), ('ontable', 'a')]
   negative_preconditions: []
   add_effects: [('holding', 'a')]
-  del_effects: [('ontable', 'a'), ('handempty',), ('clear', 'a')]
+  del_effects: [('handempty',), ('clear', 'a'), ('ontable', 'a')]
 
 6: action: stack
   parameters: ('a', 'b')
   positive_preconditions: [('holding', 'a'), ('clear', 'b')]
   negative_preconditions: []
-  add_effects: [('on', 'a', 'b'), ('handempty',), ('clear', 'a')]
+  add_effects: [('handempty',), ('clear', 'a'), ('on', 'a', 'b')]
   del_effects: [('holding', 'a'), ('clear', 'b')]
 
-# Expansions : 0
+# Expansions : 24
 Plan Length : 6
-Search Time : 0.0
+Search Time : 0.0011882781982421875

@@ -7,10 +7,14 @@ import argparse
 from pathlib import Path
 
 from pddl.heuristic_planner import HeuristicPlanner
-from pddl.delete_relaxation_h import MaxHeuristic, FastForwardHeuristic, AdditiveHeuristic
+from pddl.delete_relaxation_h import (
+    MaxHeuristic,
+    FastForwardHeuristic,
+    AdditiveHeuristic,
+    LLMHeuristic,
+)
 
-
-def build_heuristic(name: str):
+def build_heuristic(name: str, domain_path: str):
     name = name.lower()
     if name == "max":
         return MaxHeuristic()
@@ -18,8 +22,12 @@ def build_heuristic(name: str):
         return FastForwardHeuristic()
     if name == "add":
         return AdditiveHeuristic()
-    raise ValueError(f"Unknown heuristic '{name}'. Use one of: max, ff, add.")
-
+    if name == "llm":
+        # Use the folder name containing the domain file as domain identifier,
+        # e.g. "blocksworld" or "logistics"
+        domain_name = Path(domain_path).parent.name
+        return LLMHeuristic(domain_name=domain_name)
+    raise ValueError(f"Unknown heuristic '{name}'. Use one of: max, ff, add, llm.")
 
 def main():
     parser = argparse.ArgumentParser(description="Run a single planning problem")
@@ -29,8 +37,11 @@ def main():
         "--heuristic",
         type=str,
         default="max",
-        choices=["max", "ff", "add"],
-        help="Heuristic to use: max (MaxHeuristic), ff (FastForward), add (Additive)",
+        choices=["max", "ff", "add", "llm"],
+        help=(
+            "Heuristic to use: "
+            "max (MaxHeuristic), ff (FastForward), add (Additive), llm (LLM placeholder)"
+        ),
     )
     parser.add_argument(
         "--verbose",
@@ -46,9 +57,8 @@ def main():
     print(f"Problem: {problem_path}")
     print(f"Heuristic: {args.heuristic}")
 
-    heuristic = build_heuristic(args.heuristic)
+    heuristic = build_heuristic(args.heuristic, domain_path)
     planner = HeuristicPlanner(heuristic=heuristic, verbose=True)
-
 
     # Solve the task
     plan, _ = planner.solve_file(domain_path, problem_path)
@@ -62,8 +72,7 @@ def main():
     for i, action in enumerate(plan):
         print(f"{i+1}: {action}")
 
-    # --- New: statistics for the summariser ---
-    # Adjust attribute names if your HeuristicPlanner uses different ones.
+    # --- Statistics for the summariser ---
     expansions = getattr(planner, "expansions", None)
     search_time = getattr(planner, "search_time", None)
     plan_length = len(plan)
@@ -81,7 +90,6 @@ def main():
         print("Search Time : 0.0")
 
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -6,10 +6,10 @@ Grounding
 Grounding time: 0 s
 Number of actions: 212
 Initial H-val: 13
-# Expansions : 676
+# Expansions : 224
 Plan Length  : 15
-Search Time  : 0.07641816139221191
-Time: 0.07739996910095215s
+Search Time  : 0.08118605613708496
+Time: 0.08269906044006348s
 plan:
 (load-truck obj21 tru2 pos2)
 (load-truck obj11 tru1 pos1)
@@ -51,21 +51,21 @@ Plan:
 
 4: action: unload-truck
   parameters: ('obj11', 'tru1', 'apt1')
-  positive_preconditions: [('at', 'tru1', 'apt1'), ('in', 'obj11', 'tru1')]
+  positive_preconditions: [('in', 'obj11', 'tru1'), ('at', 'tru1', 'apt1')]
   negative_preconditions: []
   add_effects: [('at', 'obj11', 'apt1')]
   del_effects: [('in', 'obj11', 'tru1')]
 
 5: action: load-airplane
   parameters: ('obj11', 'apn1', 'apt1')
-  positive_preconditions: [('at', 'apn1', 'apt1'), ('at', 'obj11', 'apt1')]
+  positive_preconditions: [('at', 'obj11', 'apt1'), ('at', 'apn1', 'apt1')]
   negative_preconditions: []
   add_effects: [('in', 'obj11', 'apn1')]
   del_effects: [('at', 'obj11', 'apt1')]
 
 6: action: drive-truck
   parameters: ('tru2', 'pos2', 'apt2', 'cit2')
-  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'pos2'), ('in-city', 'apt2', 'cit2')]
+  positive_preconditions: [('in-city', 'apt2', 'cit2'), ('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'pos2')]
   negative_preconditions: []
   add_effects: [('at', 'tru2', 'apt2')]
   del_effects: [('at', 'tru2', 'pos2')]
@@ -107,7 +107,7 @@ Plan:
 
 12: action: drive-truck
   parameters: ('tru2', 'apt2', 'pos2', 'cit2')
-  positive_preconditions: [('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'apt2'), ('in-city', 'apt2', 'cit2')]
+  positive_preconditions: [('in-city', 'apt2', 'cit2'), ('in-city', 'pos2', 'cit2'), ('at', 'tru2', 'apt2')]
   negative_preconditions: []
   add_effects: [('at', 'tru2', 'pos2')]
   del_effects: [('at', 'tru2', 'apt2')]
@@ -128,11 +128,11 @@ Plan:
 
 15: action: unload-airplane
   parameters: ('obj21', 'apn1', 'apt1')
-  positive_preconditions: [('at', 'apn1', 'apt1'), ('in', 'obj21', 'apn1')]
+  positive_preconditions: [('in', 'obj21', 'apn1'), ('at', 'apn1', 'apt1')]
   negative_preconditions: []
   add_effects: [('at', 'obj21', 'apt1')]
   del_effects: [('in', 'obj21', 'apn1')]
 
-# Expansions : 0
+# Expansions : 224
 Plan Length : 15
-Search Time : 0.0
+Search Time : 0.08118605613708496

@@ -1,0 +1,8 @@
+planner_class: pddl.heuristic_planner.HeuristicPlanner
+heuristic_class: pddl.delete_relaxation_h.MaxHeuristic
+planner_pars: {
+
+}
+heuristic_pars: {
+
+}

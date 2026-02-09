@@ -1,0 +1,8 @@
+planner_class: pddl.intention.IntentionPlanner
+heuristic_class: pddl.delete_relaxation_h.FastForwardHeuristic
+planner_pars: {
+
+}
+heuristic_pars: {
+
+}

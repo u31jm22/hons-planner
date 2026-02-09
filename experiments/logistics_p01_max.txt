@@ -6,10 +6,10 @@ Grounding
 Grounding time: 0 s
 Number of actions: 212
 Initial H-val: 6
-# Expansions : 82033
+# Expansions : 53337
 Plan Length  : 20
-Search Time  : 11.48219108581543
-Time: 11.510277032852173s
+Search Time  : 11.398064851760864
+Time: 11.434947729110718s
 plan:
 (load-truck obj23 tru2 pos2)
 (load-truck obj21 tru2 pos2)
@@ -35,7 +35,7 @@ plan:
 Plan:
 1: action: load-truck
   parameters: ('obj23', 'tru2', 'pos2')
-  positive_preconditions: [('at', 'tru2', 'pos2'), ('at', 'obj23', 'pos2')]
+  positive_preconditions: [('at', 'obj23', 'pos2'), ('at', 'tru2', 'pos2')]
   negative_preconditions: []
   add_effects: [('in', 'obj23', 'tru2')]
   del_effects: [('at', 'obj23', 'pos2')]
@@ -49,7 +49,7 @@ Plan:
 
 3: action: drive-truck
   parameters: ('tru2', 'pos2', 'apt2', 'cit2')
-  positive_preconditions: [('in-city', 'apt2', 'cit2'), ('at', 'tru2', 'pos2'), ('in-city', 'pos2', 'cit2')]
+  positive_preconditions: [('at', 'tru2', 'pos2'), ('in-city', 'pos2', 'cit2'), ('in-city', 'apt2', 'cit2')]
   negative_preconditions: []
   add_effects: [('at', 'tru2', 'apt2')]
   del_effects: [('at', 'tru2', 'pos2')]
@@ -119,7 +119,7 @@ Plan:
 
 13: action: drive-truck
   parameters: ('tru1', 'pos1', 'apt1', 'cit1')
-  positive_preconditions: [('in-city', 'apt1', 'cit1'), ('at', 'tru1', 'pos1'), ('in-city', 'pos1', 'cit1')]
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('in-city', 'apt1', 'cit1'), ('in-city', 'pos1', 'cit1')]
   negative_preconditions: []
   add_effects: [('at', 'tru1', 'apt1')]
   del_effects: [('at', 'tru1', 'pos1')]
@@ -147,7 +147,7 @@ Plan:
 
 17: action: unload-truck
   parameters: ('obj11', 'tru1', 'apt1')
-  positive_preconditions: [('at', 'tru1', 'apt1'), ('in', 'obj11', 'tru1')]
+  positive_preconditions: [('in', 'obj11', 'tru1'), ('at', 'tru1', 'apt1')]
   negative_preconditions: []
   add_effects: [('at', 'obj11', 'apt1')]
   del_effects: [('in', 'obj11', 'tru1')]
@@ -161,7 +161,7 @@ Plan:
 
 19: action: unload-truck
   parameters: ('obj23', 'tru1', 'pos1')
-  positive_preconditions: [('at', 'tru1', 'pos1'), ('in', 'obj23', 'tru1')]
+  positive_preconditions: [('in', 'obj23', 'tru1'), ('at', 'tru1', 'pos1')]
   negative_preconditions: []
   add_effects: [('at', 'obj23', 'pos1')]
   del_effects: [('in', 'obj23', 'tru1')]
@@ -173,6 +173,6 @@ Plan:
   add_effects: [('at', 'obj21', 'pos1')]
   del_effects: [('in', 'obj21', 'tru1')]
 
-# Expansions : 0
+# Expansions : 53337
 Plan Length : 20
-Search Time : 0.0
+Search Time : 11.398064851760864

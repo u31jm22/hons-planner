@@ -1,28 +1,48 @@
 Domain: domains/blocksworld/domain.pddl
 Problem: domains/blocksworld/p02.pddl
 Heuristic: max
+Parsing domain: 'domains/blocksworld/domain.pddl' problem 'domains/blocksworld/p02.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 40
+Initial H-val: 5
+# Expansions : 28
+Plan Length  : 10
+Search Time  : 0.0012862682342529297
+Time: 0.002087831497192383s
+plan:
+(unstack b c)
+(put-down b)
+(unstack c a)
+(put-down c)
+(unstack a d)
+(stack a b)
+(pick-up c)
+(stack c a)
+(pick-up d)
+(stack d c)
 ✓ Plan found
 Plan:
 1: action: unstack
   parameters: ('b', 'c')
-  positive_preconditions: [('on', 'b', 'c'), ('handempty',), ('clear', 'b')]
+  positive_preconditions: [('on', 'b', 'c'), ('clear', 'b'), ('handempty',)]
   negative_preconditions: []
   add_effects: [('clear', 'c'), ('holding', 'b')]
-  del_effects: [('on', 'b', 'c'), ('handempty',), ('clear', 'b')]
+  del_effects: [('on', 'b', 'c'), ('clear', 'b'), ('handempty',)]
 
 2: action: put-down
   parameters: ('b',)
   positive_preconditions: [('holding', 'b')]
   negative_preconditions: []
-  add_effects: [('ontable', 'b'), ('handempty',), ('clear', 'b')]
+  add_effects: [('ontable', 'b'), ('clear', 'b'), ('handempty',)]
   del_effects: [('holding', 'b')]
 
 3: action: unstack
   parameters: ('c', 'a')
-  positive_preconditions: [('clear', 'c'), ('handempty',), ('on', 'c', 'a')]
+  positive_preconditions: [('clear', 'c'), ('on', 'c', 'a'), ('handempty',)]
   negative_preconditions: []
   add_effects: [('clear', 'a'), ('holding', 'c')]
-  del_effects: [('clear', 'c'), ('handempty',), ('on', 'c', 'a')]
+  del_effects: [('clear', 'c'), ('on', 'c', 'a'), ('handempty',)]
 
 4: action: put-down
   parameters: ('c',)
@@ -33,16 +53,16 @@ Plan:
 
 5: action: unstack
   parameters: ('a', 'd')
-  positive_preconditions: [('on', 'a', 'd'), ('clear', 'a'), ('handempty',)]
+  positive_preconditions: [('clear', 'a'), ('on', 'a', 'd'), ('handempty',)]
   negative_preconditions: []
-  add_effects: [('clear', 'd'), ('holding', 'a')]
-  del_effects: [('on', 'a', 'd'), ('clear', 'a'), ('handempty',)]
+  add_effects: [('holding', 'a'), ('clear', 'd')]
+  del_effects: [('clear', 'a'), ('on', 'a', 'd'), ('handempty',)]
 
 6: action: stack
   parameters: ('a', 'b')
   positive_preconditions: [('holding', 'a'), ('clear', 'b')]
   negative_preconditions: []
-  add_effects: [('clear', 'a'), ('handempty',), ('on', 'a', 'b')]
+  add_effects: [('clear', 'a'), ('on', 'a', 'b'), ('handempty',)]
   del_effects: [('holding', 'a'), ('clear', 'b')]
 
 7: action: pick-up
@@ -56,23 +76,23 @@ Plan:
   parameters: ('c', 'a')
   positive_preconditions: [('clear', 'a'), ('holding', 'c')]
   negative_preconditions: []
-  add_effects: [('clear', 'c'), ('handempty',), ('on', 'c', 'a')]
+  add_effects: [('clear', 'c'), ('on', 'c', 'a'), ('handempty',)]
   del_effects: [('clear', 'a'), ('holding', 'c')]
 
 9: action: pick-up
   parameters: ('d',)
-  positive_preconditions: [('clear', 'd'), ('ontable', 'd'), ('handempty',)]
+  positive_preconditions: [('ontable', 'd'), ('clear', 'd'), ('handempty',)]
   negative_preconditions: []
   add_effects: [('holding', 'd')]
-  del_effects: [('clear', 'd'), ('ontable', 'd'), ('handempty',)]
+  del_effects: [('ontable', 'd'), ('clear', 'd'), ('handempty',)]
 
 10: action: stack
   parameters: ('d', 'c')
   positive_preconditions: [('clear', 'c'), ('holding', 'd')]
   negative_preconditions: []
-  add_effects: [('clear', 'd'), ('handempty',), ('on', 'd', 'c')]
+  add_effects: [('clear', 'd'), ('on', 'd', 'c'), ('handempty',)]
   del_effects: [('clear', 'c'), ('holding', 'd')]
 
-# Expansions : 0
+# Expansions : 28
 Plan Length : 10
-Search Time : 0.0
+Search Time : 0.0012862682342529297

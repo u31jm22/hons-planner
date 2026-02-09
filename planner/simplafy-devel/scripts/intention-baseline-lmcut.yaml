@@ -1,0 +1,8 @@
+planner_class: pddl.intention.HeuristicPlannerWrapper
+heuristic_class: pddl.landmarkh.LMCutHeuristic
+planner_pars: {
+
+}
+heuristic_pars: {
+
+}
