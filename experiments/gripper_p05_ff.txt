@@ -1,0 +1,7 @@
+Domain: domains/gripper/domain.pddl
+Problem: domains/gripper/p05.pddl
+Heuristic: ff
+Parsing domain: 'domains/gripper/domain.pddl' problem 'domains/gripper/p05.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 8448

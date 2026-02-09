@@ -1,0 +1,202 @@
+Domain: domains/gripper/domain.pddl
+Problem: domains/gripper/p03.pddl
+Heuristic: ff
+Parsing domain: 'domains/gripper/domain.pddl' problem 'domains/gripper/p03.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 3600
+Initial H-val: 17
+# Expansions : 10960
+Plan Length  : 23
+Search Time  : 8.284866094589233
+Time: 8.305359125137329s
+plan:
+(pick ball8 rooma left)
+(pick ball7 rooma right)
+(move rooma roomb)
+(drop ball8 roomb left)
+(drop ball7 roomb right)
+(move roomb rooma)
+(pick ball6 rooma left)
+(pick ball5 rooma right)
+(move rooma roomb)
+(drop ball6 roomb left)
+(drop ball5 roomb right)
+(move roomb rooma)
+(pick ball4 rooma left)
+(pick ball3 rooma right)
+(move rooma roomb)
+(drop ball4 roomb left)
+(drop ball3 roomb right)
+(move roomb rooma)
+(pick ball2 rooma left)
+(pick ball1 rooma right)
+(move rooma roomb)
+(drop ball2 roomb left)
+(drop ball1 roomb right)
+✓ Plan found
+Plan:
+1: action: pick
+  parameters: ('ball8', 'rooma', 'left')
+  positive_preconditions: [('at-robby', 'rooma'), ('gripper', 'left'), ('free', 'left'), ('ball', 'ball8'), ('room', 'rooma'), ('at', 'ball8', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball8', 'left')]
+  del_effects: [('free', 'left'), ('at', 'ball8', 'rooma')]
+
+2: action: pick
+  parameters: ('ball7', 'rooma', 'right')
+  positive_preconditions: [('free', 'right'), ('at-robby', 'rooma'), ('ball', 'ball7'), ('at', 'ball7', 'rooma'), ('room', 'rooma'), ('gripper', 'right')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball7', 'right')]
+  del_effects: [('at', 'ball7', 'rooma'), ('free', 'right')]
+
+3: action: move
+  parameters: ('rooma', 'roomb')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'roomb')]
+  del_effects: [('at-robby', 'rooma')]
+
+4: action: drop
+  parameters: ('ball8', 'roomb', 'left')
+  positive_preconditions: [('carry', 'ball8', 'left'), ('gripper', 'left'), ('room', 'roomb'), ('ball', 'ball8'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('free', 'left'), ('at', 'ball8', 'roomb')]
+  del_effects: [('carry', 'ball8', 'left')]
+
+5: action: drop
+  parameters: ('ball7', 'roomb', 'right')
+  positive_preconditions: [('ball', 'ball7'), ('room', 'roomb'), ('carry', 'ball7', 'right'), ('gripper', 'right'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at', 'ball7', 'roomb'), ('free', 'right')]
+  del_effects: [('carry', 'ball7', 'right')]
+
+6: action: move
+  parameters: ('roomb', 'rooma')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'rooma')]
+  del_effects: [('at-robby', 'roomb')]
+
+7: action: pick
+  parameters: ('ball6', 'rooma', 'left')
+  positive_preconditions: [('at-robby', 'rooma'), ('gripper', 'left'), ('free', 'left'), ('ball', 'ball6'), ('at', 'ball6', 'rooma'), ('room', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball6', 'left')]
+  del_effects: [('free', 'left'), ('at', 'ball6', 'rooma')]
+
+8: action: pick
+  parameters: ('ball5', 'rooma', 'right')
+  positive_preconditions: [('free', 'right'), ('at-robby', 'rooma'), ('at', 'ball5', 'rooma'), ('room', 'rooma'), ('gripper', 'right'), ('ball', 'ball5')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball5', 'right')]
+  del_effects: [('at', 'ball5', 'rooma'), ('free', 'right')]
+
+9: action: move
+  parameters: ('rooma', 'roomb')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'roomb')]
+  del_effects: [('at-robby', 'rooma')]
+
+10: action: drop
+  parameters: ('ball6', 'roomb', 'left')
+  positive_preconditions: [('carry', 'ball6', 'left'), ('gripper', 'left'), ('room', 'roomb'), ('ball', 'ball6'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at', 'ball6', 'roomb'), ('free', 'left')]
+  del_effects: [('carry', 'ball6', 'left')]
+
+11: action: drop
+  parameters: ('ball5', 'roomb', 'right')
+  positive_preconditions: [('carry', 'ball5', 'right'), ('room', 'roomb'), ('gripper', 'right'), ('at-robby', 'roomb'), ('ball', 'ball5')]
+  negative_preconditions: []
+  add_effects: [('free', 'right'), ('at', 'ball5', 'roomb')]
+  del_effects: [('carry', 'ball5', 'right')]
+
+12: action: move
+  parameters: ('roomb', 'rooma')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'rooma')]
+  del_effects: [('at-robby', 'roomb')]
+
+13: action: pick
+  parameters: ('ball4', 'rooma', 'left')
+  positive_preconditions: [('ball', 'ball4'), ('at', 'ball4', 'rooma'), ('at-robby', 'rooma'), ('gripper', 'left'), ('free', 'left'), ('room', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball4', 'left')]
+  del_effects: [('at', 'ball4', 'rooma'), ('free', 'left')]
+
+14: action: pick
+  parameters: ('ball3', 'rooma', 'right')
+  positive_preconditions: [('free', 'right'), ('at', 'ball3', 'rooma'), ('ball', 'ball3'), ('at-robby', 'rooma'), ('room', 'rooma'), ('gripper', 'right')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball3', 'right')]
+  del_effects: [('at', 'ball3', 'rooma'), ('free', 'right')]
+
+15: action: move
+  parameters: ('rooma', 'roomb')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'roomb')]
+  del_effects: [('at-robby', 'rooma')]
+
+16: action: drop
+  parameters: ('ball4', 'roomb', 'left')
+  positive_preconditions: [('ball', 'ball4'), ('carry', 'ball4', 'left'), ('gripper', 'left'), ('room', 'roomb'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at', 'ball4', 'roomb'), ('free', 'left')]
+  del_effects: [('carry', 'ball4', 'left')]
+
+17: action: drop
+  parameters: ('ball3', 'roomb', 'right')
+  positive_preconditions: [('carry', 'ball3', 'right'), ('ball', 'ball3'), ('room', 'roomb'), ('gripper', 'right'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('free', 'right'), ('at', 'ball3', 'roomb')]
+  del_effects: [('carry', 'ball3', 'right')]
+
+18: action: move
+  parameters: ('roomb', 'rooma')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'rooma')]
+  del_effects: [('at-robby', 'roomb')]
+
+19: action: pick
+  parameters: ('ball2', 'rooma', 'left')
+  positive_preconditions: [('at-robby', 'rooma'), ('gripper', 'left'), ('free', 'left'), ('ball', 'ball2'), ('room', 'rooma'), ('at', 'ball2', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball2', 'left')]
+  del_effects: [('free', 'left'), ('at', 'ball2', 'rooma')]
+
+20: action: pick
+  parameters: ('ball1', 'rooma', 'right')
+  positive_preconditions: [('ball', 'ball1'), ('free', 'right'), ('at-robby', 'rooma'), ('at', 'ball1', 'rooma'), ('room', 'rooma'), ('gripper', 'right')]
+  negative_preconditions: []
+  add_effects: [('carry', 'ball1', 'right')]
+  del_effects: [('at', 'ball1', 'rooma'), ('free', 'right')]
+
+21: action: move
+  parameters: ('rooma', 'roomb')
+  positive_preconditions: [('room', 'roomb'), ('room', 'rooma'), ('at-robby', 'rooma')]
+  negative_preconditions: []
+  add_effects: [('at-robby', 'roomb')]
+  del_effects: [('at-robby', 'rooma')]
+
+22: action: drop
+  parameters: ('ball2', 'roomb', 'left')
+  positive_preconditions: [('carry', 'ball2', 'left'), ('gripper', 'left'), ('room', 'roomb'), ('ball', 'ball2'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('free', 'left'), ('at', 'ball2', 'roomb')]
+  del_effects: [('carry', 'ball2', 'left')]
+
+23: action: drop
+  parameters: ('ball1', 'roomb', 'right')
+  positive_preconditions: [('ball', 'ball1'), ('carry', 'ball1', 'right'), ('room', 'roomb'), ('gripper', 'right'), ('at-robby', 'roomb')]
+  negative_preconditions: []
+  add_effects: [('free', 'right'), ('at', 'ball1', 'roomb')]
+  del_effects: [('carry', 'ball1', 'right')]
+
+# Expansions : 10960
+Plan Length : 23
+Search Time : 8.284866094589233

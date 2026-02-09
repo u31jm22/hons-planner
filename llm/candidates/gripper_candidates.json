@@ -1,0 +1,32 @@
+[
+  {
+    "id": "gripper_candidate_1",
+    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    unsatisfied_goals = len(positive_goals - state) + len(state & negative_goals)\n    return unsatisfied_goals",
+    "prompt_variant": 0,
+    "domain": "gripper"
+  },
+  {
+    "id": "gripper_candidate_2",
+    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    remaining_goals = positive_goals - state\n    return len(remaining_goals)",
+    "prompt_variant": 1,
+    "domain": "gripper"
+  },
+  {
+    "id": "gripper_candidate_3",
+    "code": "```python\ndef h(state, goals):\n    positive_goals, negative_goals = goals\n    satisfied_goals = sum(1 for goal in positive_goals if goal in state)\n    unsatisfied_goals = sum(1 for goal in negative_goals if goal",
+    "prompt_variant": 2,
+    "domain": "gripper"
+  },
+  {
+    "id": "gripper_candidate_4",
+    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    steps_remaining = 0\n    \n    for goal in positive_goals:\n        if goal not in state:\n            steps_remaining += 1\n    \n    return steps_remaining",
+    "prompt_variant": 3,
+    "domain": "gripper"
+  },
+  {
+    "id": "gripper_candidate_5",
+    "code": "```python\ndef h(state, goals):\n    positive_goals, negative_goals = goals\n    remaining_goals = positive_goals - state\n    return len(remaining_goals) if not any(goal in state for goal in negative_goals) else float('inf",
+    "prompt_variant": 4,
+    "domain": "gripper"
+  }
+]

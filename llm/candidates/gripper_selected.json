@@ -1,0 +1,14 @@
+{
+  "candidate_id": "gripper_candidate_4",
+  "coverage": 3,
+  "total_expansions": 13852,
+  "total_time": 3.7271621227264404,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 4617.333333333333,
+  "avg_time": 1.2423873742421467
+}
