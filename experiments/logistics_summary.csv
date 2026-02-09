@@ -1,0 +1,16 @@
+problem,heuristic,expansions,plan_length,search_time
+p01,add,0,20,0.0
+p01,ff,0,20,0.0
+p01,max,0,20,0.0
+p02,add,0,19,0.0
+p02,ff,0,19,0.0
+p02,max,0,19,0.0
+p03,add,0,15,0.0
+p03,ff,0,15,0.0
+p03,max,0,15,0.0
+p04,add,0,30,0.0
+p04,ff,0,27,0.0
+p04,max,0,27,0.0
+p05,add,0,17,0.0
+p05,ff,0,17,0.0
+p05,max,0,17,0.0

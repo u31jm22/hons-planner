@@ -1,0 +1,154 @@
+Domain: domains/logistics/domain.pddl
+Problem: domains/logistics/p05.pddl
+Heuristic: max
+Parsing domain: 'domains/logistics/domain.pddl' problem 'domains/logistics/p05.pddl
+Grounding
+Grounding time: 0 s
+Number of actions: 212
+Initial H-val: 6
+# Expansions : 35655
+Plan Length  : 17
+Search Time  : 4.308261156082153
+Time: 4.318710088729858s
+plan:
+(load-truck obj23 tru2 pos2)
+(load-truck obj22 tru2 pos2)
+(load-truck obj21 tru2 pos2)
+(drive-truck tru2 pos2 apt2 cit2)
+(unload-truck obj23 tru2 apt2)
+(fly-airplane apn1 apt1 apt2)
+(load-airplane obj23 apn1 apt2)
+(fly-airplane apn1 apt2 apt1)
+(load-truck obj12 tru1 pos1)
+(unload-airplane obj23 apn1 apt1)
+(drive-truck tru1 pos1 apt1 cit1)
+(load-truck obj23 tru1 apt1)
+(unload-truck obj12 tru1 apt1)
+(drive-truck tru1 apt1 pos1 cit1)
+(unload-truck obj23 tru1 pos1)
+(unload-truck obj22 tru2 apt2)
+(unload-truck obj21 tru2 apt2)
+✓ Plan found
+Plan:
+1: action: load-truck
+  parameters: ('obj23', 'tru2', 'pos2')
+  positive_preconditions: [('at', 'tru2', 'pos2'), ('at', 'obj23', 'pos2')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj23', 'tru2')]
+  del_effects: [('at', 'obj23', 'pos2')]
+
+2: action: load-truck
+  parameters: ('obj22', 'tru2', 'pos2')
+  positive_preconditions: [('at', 'obj22', 'pos2'), ('at', 'tru2', 'pos2')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj22', 'tru2')]
+  del_effects: [('at', 'obj22', 'pos2')]
+
+3: action: load-truck
+  parameters: ('obj21', 'tru2', 'pos2')
+  positive_preconditions: [('at', 'tru2', 'pos2'), ('at', 'obj21', 'pos2')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj21', 'tru2')]
+  del_effects: [('at', 'obj21', 'pos2')]
+
+4: action: drive-truck
+  parameters: ('tru2', 'pos2', 'apt2', 'cit2')
+  positive_preconditions: [('at', 'tru2', 'pos2'), ('in-city', 'apt2', 'cit2'), ('in-city', 'pos2', 'cit2')]
+  negative_preconditions: []
+  add_effects: [('at', 'tru2', 'apt2')]
+  del_effects: [('at', 'tru2', 'pos2')]
+
+5: action: unload-truck
+  parameters: ('obj23', 'tru2', 'apt2')
+  positive_preconditions: [('at', 'tru2', 'apt2'), ('in', 'obj23', 'tru2')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj23', 'apt2')]
+  del_effects: [('in', 'obj23', 'tru2')]
+
+6: action: fly-airplane
+  parameters: ('apn1', 'apt1', 'apt2')
+  positive_preconditions: [('at', 'apn1', 'apt1')]
+  negative_preconditions: []
+  add_effects: [('at', 'apn1', 'apt2')]
+  del_effects: [('at', 'apn1', 'apt1')]
+
+7: action: load-airplane
+  parameters: ('obj23', 'apn1', 'apt2')
+  positive_preconditions: [('at', 'obj23', 'apt2'), ('at', 'apn1', 'apt2')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj23', 'apn1')]
+  del_effects: [('at', 'obj23', 'apt2')]
+
+8: action: fly-airplane
+  parameters: ('apn1', 'apt2', 'apt1')
+  positive_preconditions: [('at', 'apn1', 'apt2')]
+  negative_preconditions: []
+  add_effects: [('at', 'apn1', 'apt1')]
+  del_effects: [('at', 'apn1', 'apt2')]
+
+9: action: load-truck
+  parameters: ('obj12', 'tru1', 'pos1')
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('at', 'obj12', 'pos1')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj12', 'tru1')]
+  del_effects: [('at', 'obj12', 'pos1')]
+
+10: action: unload-airplane
+  parameters: ('obj23', 'apn1', 'apt1')
+  positive_preconditions: [('at', 'apn1', 'apt1'), ('in', 'obj23', 'apn1')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj23', 'apt1')]
+  del_effects: [('in', 'obj23', 'apn1')]
+
+11: action: drive-truck
+  parameters: ('tru1', 'pos1', 'apt1', 'cit1')
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('in-city', 'apt1', 'cit1'), ('in-city', 'pos1', 'cit1')]
+  negative_preconditions: []
+  add_effects: [('at', 'tru1', 'apt1')]
+  del_effects: [('at', 'tru1', 'pos1')]
+
+12: action: load-truck
+  parameters: ('obj23', 'tru1', 'apt1')
+  positive_preconditions: [('at', 'tru1', 'apt1'), ('at', 'obj23', 'apt1')]
+  negative_preconditions: []
+  add_effects: [('in', 'obj23', 'tru1')]
+  del_effects: [('at', 'obj23', 'apt1')]
+
+13: action: unload-truck
+  parameters: ('obj12', 'tru1', 'apt1')
+  positive_preconditions: [('at', 'tru1', 'apt1'), ('in', 'obj12', 'tru1')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj12', 'apt1')]
+  del_effects: [('in', 'obj12', 'tru1')]
+
+14: action: drive-truck
+  parameters: ('tru1', 'apt1', 'pos1', 'cit1')
+  positive_preconditions: [('at', 'tru1', 'apt1'), ('in-city', 'apt1', 'cit1'), ('in-city', 'pos1', 'cit1')]
+  negative_preconditions: []
+  add_effects: [('at', 'tru1', 'pos1')]
+  del_effects: [('at', 'tru1', 'apt1')]
+
+15: action: unload-truck
+  parameters: ('obj23', 'tru1', 'pos1')
+  positive_preconditions: [('at', 'tru1', 'pos1'), ('in', 'obj23', 'tru1')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj23', 'pos1')]
+  del_effects: [('in', 'obj23', 'tru1')]
+
+16: action: unload-truck
+  parameters: ('obj22', 'tru2', 'apt2')
+  positive_preconditions: [('at', 'tru2', 'apt2'), ('in', 'obj22', 'tru2')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj22', 'apt2')]
+  del_effects: [('in', 'obj22', 'tru2')]
+
+17: action: unload-truck
+  parameters: ('obj21', 'tru2', 'apt2')
+  positive_preconditions: [('at', 'tru2', 'apt2'), ('in', 'obj21', 'tru2')]
+  negative_preconditions: []
+  add_effects: [('at', 'obj21', 'apt2')]
+  del_effects: [('in', 'obj21', 'tru2')]
+
+# Expansions : 0
+Plan Length : 17
+Search Time : 0.0
