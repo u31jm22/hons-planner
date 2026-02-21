@@ -1,0 +1,16 @@
+{
+  "candidate_id": "blocksworld_candidate_1",
+  "coverage": 5,
+  "total_expansions": 1371,
+  "total_time": 0.016122102737426758,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl",
+    "p05.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 274.2,
+  "avg_time": 0.0032244205474853517
+}

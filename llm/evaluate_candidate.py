@@ -7,8 +7,12 @@ import sys
 import argparse
 from pathlib import Path
 
-# Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add project root and planner src to path
+PROJECT_ROOT = Path(__file__).parent.parent
+PLANNER_SRC = PROJECT_ROOT / "planner" / "simplafy-devel" / "src"
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PLANNER_SRC))
+
 
 from pddl.heuristic_planner import HeuristicPlanner
 

@@ -7,18 +7,23 @@ import argparse
 import sys
 from pathlib import Path
 
-from pddl.heuristic_planner import HeuristicPlanner
+# Make Felipe's planner package visible
+sys.path.insert(0, str(Path(__file__).parent / "simplafy-devel" / "src"))
+
+from pddl.pddl_planner import PDDLPlanner
 from pddl.delete_relaxation_h import (
     MaxHeuristic,
     FastForwardHeuristic,
     AdditiveHeuristic,
 )
 
-# Import our LLM heuristics from llm/ folder
+# Import LLM heuristics from llm/ folder
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from llm.llm_heuristic import LLMHeuristic
 from llm.llm_code_heuristic import LLMCodeHeuristic
 from llm.model_wrapper import DummyModel, OpenAIModel
+
+
 
 
 def build_heuristic(name: str, domain_path: str, openai_key: str = None):
@@ -103,7 +108,8 @@ def main():
         print(heuristic.heuristic_code)
         print("=================================\n")
     
-    planner = HeuristicPlanner(heuristic=heuristic, verbose=True)
+    planner = PDDLPlanner(heuristic=heuristic, verbose=True)
+
 
     # Solve the task
     plan, _ = planner.solve_file(domain_path, problem_path)

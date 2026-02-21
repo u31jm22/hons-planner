@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+logistics,p06.pddl,max,,1,873,0.14459896087646484,8
+logistics,p07.pddl,max,,1,254727,44.95015597343445,25
+logistics,p08.pddl,max,,1,6141,1.2447118759155273,14
+logistics,p09.pddl,max,,1,253233,45.57306885719299,25
+logistics,p10.pddl,max,,1,175898,33.99450182914734,24

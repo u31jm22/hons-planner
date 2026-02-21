@@ -1,14 +1,17 @@
 {
-  "candidate_id": "gripper_candidate_4",
-  "coverage": 3,
-  "total_expansions": 13852,
-  "total_time": 3.7271621227264404,
+  "candidate_id": "gripper_candidate_2",
+  "coverage": 4,
+  "total_expansions": 72772,
+  "total_time": 32.991426944732666,
   "solved": [
     "p01.pddl",
     "p02.pddl",
-    "p03.pddl"
+    "p03.pddl",
+    "p04.pddl"
   ],
-  "failed": [],
-  "avg_expansions": 4617.333333333333,
-  "avg_time": 1.2423873742421467
+  "failed": [
+    "p05.pddl"
+  ],
+  "avg_expansions": 18193.0,
+  "avg_time": 8.247856736183167
 }

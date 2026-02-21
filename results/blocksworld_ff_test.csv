@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+blocksworld,p06.pddl,ff,,1,91,0.010440826416015625,16
+blocksworld,p07.pddl,ff,,1,25,0.0037577152252197266,12
+blocksworld,p08.pddl,ff,,1,26,0.005257129669189453,10
+blocksworld,p09.pddl,ff,,1,1465,0.21169590950012207,22
+blocksworld,p10.pddl,ff,,1,527,0.1279432773590088,22

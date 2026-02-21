@@ -1,31 +1,31 @@
 [
   {
     "id": "gripper_candidate_1",
-    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    unsatisfied_goals = len(positive_goals - state) + len(state & negative_goals)\n    return unsatisfied_goals",
+    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    balls_to_pick = {g[1] for g in positive_goals if g[0] == 'at' and g[1] not in state}\n    balls_to_drop = {g[1] for g in positive_goals if g[0] == 'at' and g[1] in state}\n    grippers = {g[1] for g in state if g[0] == 'free'}\n    robot_location = next((r[1] for r in state if r[0] == 'at-robby'), None)\n\n    trips_needed = 0\n    if balls_to_pick:\n        for ball in balls_to_pick:\n            ball_location = next((r[1] for r in state if r[0] == 'at' and r[1] == ball), None)\n            if ball_location and ball_location != robot_location:\n                trips_needed += 1\n        trips_needed += (len(balls_to_pick) + 1) // 2  # Batch pickups\n\n    if balls_to_drop:\n        for ball in balls_to_drop:\n            if ball not in state:\n                trips_needed += 1\n        trips_needed += (len(balls_to_drop) + 1) // 2  # Batch drops\n\n    return trips_needed",
     "prompt_variant": 0,
     "domain": "gripper"
   },
   {
     "id": "gripper_candidate_2",
-    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    remaining_goals = positive_goals - state\n    return len(remaining_goals)",
+    "code": "def h(state, goals):\n    \"\"\"\n    Domain-specific heuristic for this planning domain.\n    state: frozenset of tuples like ('at', 'ball1', 'rooma')\n    goals: (positive_goals, negative_goals), each a frozenset of tuples\n    Returns: non-negative int or float heuristic estimate.\n    \"\"\"\n    positive_goals, negative_goals = goals\n    robot_room = next((r for r in state if r[0] == 'at-robby'), None)\n    robot_room = robot_room[1] if robot_room else None\n\n    remaining_moves = 0\n    remaining_picks = 0\n    remaining_drops = 0\n\n    for goal in positive_goals:\n        if goal[0] == 'at':\n            ball, target_room = goal[1], goal[2]\n            if not any((ball == b[1] and target_room == b[2]) for b in state if b[0] == 'at'):\n                remaining_picks += 1\n                if robot_room != target_room:\n                    remaining_moves += 1\n            elif any((ball == b[1] for b in state if b[0] == 'carry')):\n                remaining_drops += 1\n        elif goal[0] == 'carry':\n            ball, gripper = goal[1], goal[2]\n            if not any((ball == b[1] and gripper == b[2]) for b in state if b[0] == 'carry'):\n                remaining_picks += 1\n\n    return remaining_moves + remaining_picks + remaining_drops",
     "prompt_variant": 1,
     "domain": "gripper"
   },
   {
     "id": "gripper_candidate_3",
-    "code": "```python\ndef h(state, goals):\n    positive_goals, negative_goals = goals\n    satisfied_goals = sum(1 for goal in positive_goals if goal in state)\n    unsatisfied_goals = sum(1 for goal in negative_goals if goal",
+    "code": "def h(state, goals):\n    \"\"\"\n    Domain-specific heuristic for this planning domain.\n    state: frozenset of tuples like ('at', 'ball1', 'rooma')\n    goals: (positive_goals, negative_goals), each a frozenset of tuples\n    Returns: non-negative int or float heuristic estimate.\n    \"\"\"\n    positive_goals, negative_goals = goals\n    carried_balls = {obj for obj in state if obj[0] == 'carry'}\n    at_balls = {obj for obj in state if obj[0] == 'at'}\n    at_robby = next((r for r in state if r[0] == 'at-robby'), None)\n\n    heuristic_cost = 0\n\n    for goal in positive_goals:\n        if goal[0] == 'at':\n            ball, room = goal[1], goal[2]\n            if (ball, room) not in at_balls:\n                if carried_balls:\n                    heuristic_cost += 1  # Need to drop a carried ball\n                else:\n                    heuristic_cost += 2  # Need to pick up the ball and move to the room\n        elif goal[0] == 'free':\n            gripper = goal[1]\n            if (gripper,) not in state:\n                heuristic_cost += 1  # Need to drop a ball to free the gripper\n\n    return heuristic_cost + len(carried_balls) + (1 if at_robby is None else 0)",
     "prompt_variant": 2,
     "domain": "gripper"
   },
   {
     "id": "gripper_candidate_4",
-    "code": "def h(state, goals):\n    positive_goals, negative_goals = goals\n    steps_remaining = 0\n    \n    for goal in positive_goals:\n        if goal not in state:\n            steps_remaining += 1\n    \n    return steps_remaining",
+    "code": "def h(state, goals):\n    \"\"\"\n    Domain-specific heuristic for this planning domain.\n    state: frozenset of tuples like ('at', 'ball1', 'rooma')\n    goals: (positive_goals, negative_goals), each a frozenset of tuples\n    Returns: non-negative int or float heuristic estimate.\n    \"\"\"\n    positive_goals, negative_goals = goals\n    remaining_picks = 0\n    remaining_drops = 0\n    room_locations = {}\n\n    for g in positive_goals:\n        if g[0] == 'at':\n            ball = g[1]\n            room = g[2]\n            room_locations[ball] = room\n            if ('at', ball, room) not in state:\n                remaining_picks += 1\n        elif g[0] == 'at-robby':\n            goal_room = g[1]\n            if ('at-robby', goal_room) not in state:\n                remaining_moves = 1\n            else:\n                remaining_moves = 0\n\n    for carry in state:\n        if carry[0] == 'carry':\n            ball = carry[1]\n            if ball in room_locations:\n                if room_locations[ball] != carry[2]:\n                    remaining_drops += 1\n                    remaining_moves += 1\n\n    return remaining_picks + remaining_drops + remaining_moves",
     "prompt_variant": 3,
     "domain": "gripper"
   },
   {
     "id": "gripper_candidate_5",
-    "code": "```python\ndef h(state, goals):\n    positive_goals, negative_goals = goals\n    remaining_goals = positive_goals - state\n    return len(remaining_goals) if not any(goal in state for goal in negative_goals) else float('inf",
+    "code": "def h(state, goals):\n    \"\"\"\n    Domain-specific heuristic for this planning domain.\n    state: frozenset of tuples like ('at', 'ball1', 'rooma')\n    goals: (positive_goals, negative_goals), each a frozenset of tuples\n    Returns: non-negative int or float heuristic estimate.\n    \"\"\"\n    positive_goals, negative_goals = goals\n    remaining_moves = 0\n    balls_to_pick = 0\n    balls_to_drop = 0\n\n    # Count balls that need to be picked\n    for g in positive_goals:\n        if g[0] == 'at' and g[1] in state:\n            continue\n        if g[0] == 'carry':\n            balls_to_drop += 1\n        elif g[0] == 'at' and g[1][0:4] == 'ball':\n            balls_to_pick += 1\n\n    # Calculate moves needed to pick up balls\n    for ball in state:\n        if ball[0] == 'at' and ball[1][0:4] == 'ball':\n            remaining_moves += 1  # Move to the ball's location to pick it up\n\n    # Count moves to drop balls\n    for g in state:\n        if g[0] == 'carry':\n            remaining_moves += 1  # Move to the drop location\n\n    return balls_to_pick + balls_to_drop + remaining_moves",
     "prompt_variant": 4,
     "domain": "gripper"
   }
