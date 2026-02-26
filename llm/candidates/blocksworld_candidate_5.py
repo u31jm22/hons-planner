@@ -1,22 +1,53 @@
 def h(state, goals):
-    """
-    Domain-specific heuristic for the BLOCKS world planning domain.
-    state: frozenset of tuples like ('on', 'blocka', 'blockb'), ('ontable', 'blockc'), ('clear', 'blockd'), ('holding', 'blocke')
-    goals: (positive_goals, negative_goals), each a frozenset of tuples
-    Returns: non-negative int or float heuristic estimate.
-    """
-    def is_goal_achieved(block, target):
-        return any((('on', block, target) in goals[0], ('ontable', block) in goals[0], ('clear', block) in goals[0]))
+    positive_goals, negative_goals = goals
+    on_map = {}
+    clear_set = set()
+    ontable_set = set()
+    holding_set = set()
+    handempty = False
+    for atom in state:
+        if atom[0] == 'on':
+            on_map[atom[1]] = atom[2]
+        elif atom[0] == 'clear':
+            clear_set.add(atom[1])
+        elif atom[0] == 'ontable':
+            ontable_set.add(atom[1])
+        elif atom[0] == 'holding':
+            holding_set.add(atom[1])
+        elif atom[0] == 'handempty':
+            handempty = True
 
-    def blocks_to_move(block):
-        if is_goal_achieved(block, 'table'):
-            return 0
+    # Helper: count blocks stacked above x
+    def count_above(x):
+        count = 0
+        for b, below in on_map.items():
+            if below == x:
+                count += 1 + count_above(b)
+        return count
 
-        on_block = [b for b in state if b[0] == 'on' and b[1] == block]
-        if on_block:
-            return 1 + max([blocks_to_move(b[2]) for b in on_block])
-        else:
-            return float('inf')
-
-    total_cost = sum(blocks_to_move(block[1]) for block in state if block[0] == 'on')
-    return total_cost
+    cost = 0
+    for goal in positive_goals:
+        if goal[0] == 'on':
+            x, y = goal[1], goal[2]
+            if on_map.get(x) == y:
+                continue
+            # Base cost: unstack x + stack x on y
+            step_cost = 2
+            # Add cost for blocks above x (each needs unstack + putdown)
+            buried = count_above(x)
+            step_cost += buried * 2
+            # If y is not clear and not ontable, need to clear y first
+            if y not in clear_set and y not in ontable_set:
+                step_cost += 1
+            cost += step_cost
+        elif goal[0] == 'ontable':
+            x = goal[1]
+            if x in ontable_set:
+                continue
+            # Base cost: unstack x + put down
+            step_cost = 2
+            # Add cost for blocks above x
+            buried = count_above(x)
+            step_cost += buried * 2
+            cost += step_cost
+    return float(cost)

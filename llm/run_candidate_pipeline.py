@@ -42,7 +42,7 @@ def main() -> int:
     pipeline = CandidatePipeline(model=model, project_root=project_root)
 
     # Training problems p01–p05
-    training_problems = ["p01.pddl", "p02.pddl", "p03.pddl", "p04.pddl", "p05.pddl"]
+    training_problems = ["p01.pddl", "p02.pddl", "p03.pddl"]
 
     print(f"\n=== Generating candidates for {domain_name} ({model_name}) ===\n")
     candidates = pipeline.generate_candidates(domain_name, num_candidates=5)

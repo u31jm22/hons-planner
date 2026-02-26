@@ -1,34 +1,45 @@
 def h(state, goals):
-    """
-    Domain-specific heuristic for logistics planning domain.
-    state: frozenset of tuples like ('at', obj, loc), ('in', pkg, vehicle)
-    goals: (positive_goals, negative_goals), each a frozenset of tuples
-    Returns: non-negative int or float heuristic estimate.
-    """
-    def is_goal_met(atom):
-        return atom in goals[0] or atom in goals[1]
-
-    def distance_to_goal(obj, loc):
-        if ('at', obj, loc) in goals[0]:
-            return 0
-        elif ('at', obj, loc) in state:
-            return 1
-        else:
-            min_distance = float('inf')
-            for goal_loc in [g[2] for g in goals[0] if g[1] == obj]:
-                if ('at', obj, goal_loc) in state:
-                    continue
-                locs_to_goal = [g[2] for g in state if g[1] == loc and g[2] in [goal_loc, loc]]
-                distance = len(set(locs_to_goal))
-                min_distance = min(min_distance, distance)
-            return min_distance
-
-    total_cost = 0
+    positive_goals, negative_goals = goals
+    at_map = {}
+    in_map = {}
+    vehicles_at = {}
     for atom in state:
-        if atom[0] == 'in':
-            pkg, vehicle = atom[1], atom[2]
-            if ('unload', pkg, vehicle) not in state and not is_goal_met(('at', pkg, vehicle)):
-                total_cost += 2  # load + unload
-                total_cost += distance_to_goal(pkg, vehicle)
-
-    return total_cost
+        if atom[0] == 'at':
+            at_map[atom[1]] = atom[2]
+            if atom[1].startswith('truck') or atom[1].startswith('airplane'):
+                vehicles_at.setdefault(atom[2], set()).add(atom[1])
+        elif atom[0] == 'in':
+            in_map[atom[1]] = atom[2]
+    total_cost = 0
+    for goal in positive_goals:
+        if goal[0] != 'at':
+            continue
+        pkg, goal_loc = goal[1], goal[2]
+        # If package already at goal location, no cost
+        if at_map.get(pkg) == goal_loc:
+            continue
+        # Package is inside a vehicle
+        if pkg in in_map:
+            veh = in_map[pkg]
+            veh_loc = at_map.get(veh)
+            cost = 1  # unload
+            if veh_loc != goal_loc:
+                cost += 1  # move vehicle
+            cost += 1  # drop package at goal
+            total_cost += cost
+        else:
+            # Package on ground somewhere else
+            pkg_loc = at_map.get(pkg)
+            if pkg_loc is None:
+                # Unknown location, assign high cost
+                total_cost += 5
+                continue
+            cost = 1  # load package into vehicle
+            if pkg_loc != goal_loc:
+                cost += 1  # move vehicle
+            cost += 1  # unload package at goal
+            # If no vehicle at package location, add cost to bring one
+            if not vehicles_at.get(pkg_loc):
+                cost += 1
+            total_cost += cost
+    return float(total_cost)

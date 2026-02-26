@@ -1,43 +1,57 @@
 def h(state, goals):
-    """
-    Domain-specific heuristic for the Depots domain.
-    state: frozenset of ground predicates describing the current world.
-    goals: (positive_goals, negative_goals), each a frozenset of ground predicates.
-    Returns: a non-negative int or float estimating the remaining number of actions
-             needed to reach a goal state from the current state.
-    """
     positive_goals, negative_goals = goals
-    heuristic_cost = 0
+    # Extract robot location
+    robot_loc = None
+    for atom in state:
+        if atom[0] == 'at-robby':
+            robot_loc = atom[1]
+            break
+    if robot_loc is None:
+        # If robot location unknown, return a high heuristic
+        return 1000
 
-    # Map current locations of crates and their goals
-    crate_locations = {g[1]: g[2] for g in positive_goals if g[0] == 'at'}
-    crate_in_trucks = {g[1]: g[2] for g in state if g[0] == 'in'}
-    crate_on = {g[1]: g[2] for g in state if g[0] == 'on'}
+    # Extract locations of balls in state
+    ball_locs = {}
+    for atom in state:
+        if atom[0] == 'at' and len(atom) == 3:
+            ball_locs[atom[1]] = atom[2]
 
-    for crate, goal_location in crate_locations.items():
-        current_location = None
+    # Extract goal locations for balls
+    goal_ball_locs = {}
+    for g in positive_goals:
+        if g[0] == 'at' and len(g) == 3:
+            goal_ball_locs[g[1]] = g[2]
 
-        if crate in crate_in_trucks:
-            current_location = crate_in_trucks[crate]
-            heuristic_cost += 1  # Need to unload
-        elif crate in crate_on:
-            current_location = crate_on[crate]
-            heuristic_cost += 1  # Need to lift off
-        else:
-            current_location = next((g[2] for g in state if g[0] == 'at' and g[1] == crate), None)
+    # Heuristic: sum over balls of
+    # distance from robot to ball + distance from ball to goal location
+    # distance is approximated as 1 if locations differ, 0 if same
+    # plus 1 for each pick/drop action needed
+    # Also add penalty for balls not at goal location
 
-        if current_location != goal_location:
-            # Estimate the cost to move the crate to its goal
-            if current_location is not None:
-                # If the crate is on the ground or on another crate
-                heuristic_cost += 1  # Need to load it onto a hoist
-                heuristic_cost += 1  # Need to drive to the goal location
-                heuristic_cost += 1  # Need to unload it at the goal location
-            else:
-                # If the crate is not found, assume it needs to be fetched
-                heuristic_cost += 3  # Load, drive, unload
+    def dist(loc1, loc2):
+        return 0 if loc1 == loc2 else 1
 
-    # Add costs for any hoists that are not available or clear
-    for hoist in (g[1] for g in state if g[0] == 'available'):
-        if not any(g[0] == 'clear' and g[1] == hoist for g in state):
-            heuristic_cost += 1  # Need to clear the ho
+    h_val = 0
+    for ball, goal_loc in goal_ball_locs.items():
+        current_loc = ball_locs.get(ball)
+        if current_loc is None:
+            # Ball location unknown, add penalty
+            h_val += 3
+            continue
+        if current_loc != goal_loc:
+            # Need to move robot to ball location
+            h_val += dist(robot_loc, current_loc)
+            # Pick ball
+            h_val += 1
+            # Move ball to goal location
+            h_val += dist(current_loc, goal_loc)
+            # Drop ball
+            h_val += 1
+        # else ball already at goal, no cost
+
+    # Also consider negative goals: if any negative goal is true in state, add penalty
+    for ng in negative_goals:
+        if ng in state:
+            h_val += 5
+
+    return h_val

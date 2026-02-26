@@ -1,60 +1,38 @@
 def h(state, goals):
-    """
-    Domain-specific heuristic for this planning domain.
-    state: frozenset of tuples like ('at-robby', 'rooma'), ('at', 'ball1', 'rooma'), ('carry', 'ball2', 'right'), ('free', 'left')
-    goals: (positive_goals, negative_goals), each a frozenset of tuples
-    Returns: non-negative int or float heuristic estimate.
-    """
     positive_goals, negative_goals = goals
-
-    # Extract robot current room
-    robby_room = None
+    robot_room = None
+    ball_pos = {}
+    carried = {}
+    free_grippers = 0
     for atom in state:
         if atom[0] == 'at-robby':
-            robby_room = atom[1]
-            break
-    if robby_room is None:
-        # no robot location known, heuristic fallback
-        return 0
-
-    # Extract balls currently carried and by which gripper
-    carried_balls = {}
-    for atom in state:
-        if atom[0] == 'carry':
-            ball, gripper = atom[1], atom[2]
-            carried_balls[ball] = gripper
-
-    # Extract balls current location (only those on floor)
-    ball_locations = {}
-    for atom in state:
-        if atom[0] == 'at':
-            ball, room = atom[1], atom[2]
-            ball_locations[ball] = room
-
-    # Extract goal ball locations (only positive goals of form ('at', ball, room))
-    goal_ball_locations = {}
-    for atom in positive_goals:
-        if atom[0] == 'at':
-            ball, room = atom[1], atom[2]
-            goal_ball_locations[ball] = room
-
-    # Rooms in domain (from state and goals)
-    rooms = set()
-    for atom in state:
-        if atom[0] == 'at-robby':
-            rooms.add(atom[1])
+            robot_room = atom[1]
         elif atom[0] == 'at':
-            rooms.add(atom[2])
+            ball_pos[atom[1]] = atom[2]
         elif atom[0] == 'carry':
-            pass
+            carried[atom[1]] = atom[2]
         elif atom[0] == 'free':
-            pass
-    for atom in positive_goals:
-        if atom[0] == 'at':
-            rooms.add(atom[2])
-    for atom in negative_goals:
-        if atom[0] == 'at':
-            rooms.add(atom[2])
-
-    # Since domain has only two rooms, define a simple distance function
-    # distance between rooms:
+            free_grippers += 1
+    goal_targets = {g[1]: g[2] for g in positive_goals if g[0] == 'at'}
+    total_cost = 0
+    for ball, target_room in goal_targets.items():
+        if ball in carried:
+            # Ball is carried in some gripper
+            if robot_room == target_room:
+                # Already at goal room, just drop
+                total_cost += 1
+            else:
+                # Need to move to goal room and drop
+                total_cost += 1 + 1
+        else:
+            current_room = ball_pos.get(ball)
+            if current_room == target_room:
+                # Ball already at goal room on floor
+                continue
+            # Need to move to ball if not there, pick, move to goal, drop
+            move_to_ball = 0 if robot_room == current_room else 1
+            total_cost += move_to_ball + 1 + 1 + 1
+    # Discount for multiple free grippers to reflect parallelism
+    if free_grippers >= 2 and total_cost > 0:
+        total_cost -= 1
+    return float(max(0, total_cost))
