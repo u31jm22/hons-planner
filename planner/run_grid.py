@@ -3,24 +3,20 @@ import sys
 import signal
 from pathlib import Path
 
-
 # Add planner src (where pddl lives) to sys.path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PLANNER_SRC = PROJECT_ROOT / "planner" / "simplafy-devel" / "src"
 if str(PLANNER_SRC) not in sys.path:
     sys.path.insert(0, str(PLANNER_SRC))
 
-
 import argparse
 import csv
 import json
 import time
 
-
 from pddl.heuristic_planner import HeuristicPlanner
 from pddl.delete_relaxation_h import MaxHeuristic, FastForwardHeuristic, AdditiveHeuristic
 from llm.llm_code_heuristic import LLMCodeHeuristic
-
 
 TIMEOUT_SECONDS = 300
 
@@ -29,7 +25,7 @@ def _timeout_handler(signum, frame):
     raise TimeoutError("Planner exceeded time limit")
 
 
-def make_baseline_heuristic(name):
+def make_baseline_heuristic(name: str):
     name = name.lower()
     if name == "max":
         return MaxHeuristic()
@@ -37,27 +33,43 @@ def make_baseline_heuristic(name):
         return FastForwardHeuristic()
     if name == "add":
         return AdditiveHeuristic()
-    raise ValueError("Unknown baseline heuristic {}".format(name))
+    raise ValueError(f"Unknown baseline heuristic {name}")
 
 
-def load_selected_candidate(domain, model, project_root):
-    """Return path to candidate .py for (domain, model)."""
-    sel_json = project_root / "llm" / "candidates" / "{}_selected.json".format(domain)
+def load_selected_candidate(domain: str, model: str, project_root: Path) -> Path:
+    """
+    Return path to candidate .py for (domain, model).
+
+    We expect files like:
+      llm/candidates/<domain>_selected_<model>.json
+    whose contents include "candidate_id", pointing to <candidate_id>.py.
+    """
+    candidates_dir = project_root / "llm" / "candidates"
+
+    if model:
+        sel_json = candidates_dir / f"{domain}_selected_{model}.json"
+    else:
+        # Backwards compatibility: fall back to old unlabelled file
+        sel_json = candidates_dir / f"{domain}_selected.json"
+
+    if not sel_json.exists():
+        raise FileNotFoundError(f"Selection file not found: {sel_json}")
+
     data = json.loads(sel_json.read_text())
     cand_id = data["candidate_id"]  # e.g. blocksworld_candidate_3
-    cand_file = project_root / "llm" / "candidates" / "{}.py".format(cand_id)
+    cand_file = candidates_dir / f"{cand_id}.py"
     if not cand_file.exists():
-        raise FileNotFoundError("Candidate file not found: {}".format(cand_file))
+        raise FileNotFoundError(f"Candidate file not found: {cand_file}")
     return cand_file
 
 
-def load_instances(domain_dir, fname):
+def load_instances(domain_dir: Path, fname: str):
     path = domain_dir / fname
     with path.open() as f:
         return [line.strip() for line in f if line.strip()]
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--domain", required=True)
     parser.add_argument(
@@ -72,7 +84,7 @@ def main():
     )
     parser.add_argument(
         "--model",
-        help="Model name label when mode=llm-selected, e.g. gpt-4o-mini",
+        help="Model name label when mode=llm-selected, e.g. gpt-4o-mini or gpt-4.1-mini",
     )
     parser.add_argument(
         "--instances-file",

@@ -1,0 +1,18 @@
+{
+  "candidate_id": "gripper_candidate_4",
+  "coverage": 4,
+  "total_expansions": 82488,
+  "total_time": 44.96419310569763,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl"
+  ],
+  "failed": [
+    "p05.pddl"
+  ],
+  "avg_expansions": 20622.0,
+  "avg_time": 11.241048276424408,
+  "model_name": "gpt-4.1-mini"
+}

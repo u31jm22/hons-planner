@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+blocksworld,p01.pddl,llm-selected,gpt-4o-mini,1,112,0.005658864974975586,6
+blocksworld,p02.pddl,llm-selected,gpt-4o-mini,1,86,0.003955841064453125,10
+blocksworld,p03.pddl,llm-selected,gpt-4o-mini,1,81,0.0035371780395507812,6
+blocksworld,p04.pddl,llm-selected,gpt-4o-mini,1,687,0.0339510440826416,12
+blocksworld,p05.pddl,llm-selected,gpt-4o-mini,1,683,0.030098438262939453,10

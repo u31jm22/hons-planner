@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+gripper,p06.pddl,llm-selected,gpt-4o-mini,0,47740,300.78955459594727,0
+gripper,p07.pddl,llm-selected,gpt-4o-mini,0,46435,300.44054532051086,0
+gripper,p08.pddl,llm-selected,gpt-4o-mini,0,26432,300.36469984054565,0
+gripper,p09.pddl,llm-selected,gpt-4o-mini,0,14836,300.25992941856384,0
+gripper,p10.pddl,llm-selected,gpt-4o-mini,0,17007,300.31370282173157,0

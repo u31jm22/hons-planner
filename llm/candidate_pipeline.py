@@ -1,5 +1,6 @@
 """
-Pipeline for generating, evaluating, and selecting LLM-generated heuristic candidates.
+Pipeline for generating, evaluating, and selecting LLM-generated heuristic candidates
+(for new LLM experiments).
 """
 import json
 import subprocess
@@ -9,7 +10,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Tuple, Optional
 
 
-def is_trivial_goal_count(code):
+def is_trivial_goal_count(code: str) -> bool:
     """
     Heuristically detect trivial goal-count-style heuristics.
     Returns True if the code should be rejected as too simple.
@@ -59,13 +60,13 @@ def is_trivial_goal_count(code):
     return False
 
 
-def strip_markdown_fences(text):
+def strip_markdown_fences(text: str) -> str:
     text = re.sub(r"```python\s*", "", text, flags=re.IGNORECASE)
     text = re.sub(r"```\s*", "", text)
     return text.strip()
 
 
-def extract_h_function(response):
+def extract_h_function(response: str) -> str:
     """
     Extract a `def h(state, goals): ...` function from a model response.
     """
@@ -91,8 +92,8 @@ def extract_h_function(response):
             continue
 
         indent = len(line) - len(line.lstrip())
-
         stripped = line.lstrip()
+
         if indent <= base_indent and (stripped.startswith("def ") or stripped.startswith("class ")):
             break
 
@@ -101,7 +102,7 @@ def extract_h_function(response):
     return "\n".join(code_lines).strip()
 
 
-def compile_check(code):
+def compile_check(code: str) -> Tuple[bool, str]:
     """
     Compile candidate code in-memory. Return (ok, error_message).
     """
@@ -115,9 +116,10 @@ def compile_check(code):
 class CandidatePipeline:
     """
     Generates multiple candidate heuristics per domain and selects the best.
+    This version is for new LLM experiments; existing results stay as they are.
     """
 
-    def __init__(self, model, project_root):
+    def __init__(self, model, project_root: Path):
         self.model = model
         self.project_root = project_root
         self.domains_dir = project_root / "domains"
@@ -127,32 +129,32 @@ class CandidatePipeline:
         self.experiments_dir.mkdir(exist_ok=True)
         (self.llm_dir / "candidates").mkdir(exist_ok=True)
 
-    def generate_candidates(self, domain_name, num_candidates=5):
+    def generate_candidates(self, domain_name: str, num_candidates: int = 5):
         domain_path = self.domains_dir / domain_name / "domain.pddl"
         if not domain_path.exists():
-            raise FileNotFoundError("Domain not found: {}".format(domain_path))
+            raise FileNotFoundError(f"Domain not found: {domain_path}")
 
         domain_pddl = domain_path.read_text()
 
         candidates = []
         for i in range(num_candidates):
-            print("Generating candidate {}/{} for {}...".format(i + 1, num_candidates, domain_name))
+            print(f"Generating candidate {i + 1}/{num_candidates} for {domain_name}...")
             prompt = self._build_prompt(domain_name=domain_name, domain_pddl=domain_pddl, variant_id=i)
-            code = self._generate_heuristic_code(prompt, domain_name=domain_name)
+            code = self._generate_heuristic_code(prompt)
 
             candidates.append({
-                "id": "{}_candidate_{}".format(domain_name, i + 1),
+                "id": f"{domain_name}_candidate_{i + 1}",
                 "code": code,
                 "prompt_variant": i,
                 "domain": domain_name,
             })
 
-        out_json = self.llm_dir / "candidates" / "{}_candidates.json".format(domain_name)
+        out_json = self.llm_dir / "candidates" / f"{domain_name}_candidates.json"
         out_json.write_text(json.dumps(candidates, indent=2))
-        print("Saved {} candidates to {}".format(num_candidates, out_json))
+        print(f"Saved {num_candidates} candidates to {out_json}")
         return candidates
 
-    def _generate_heuristic_code(self, prompt, domain_name):
+    def _generate_heuristic_code(self, prompt: str) -> str:
         """
         Ask LLM to generate heuristic code with retries + filters.
         """
@@ -164,25 +166,25 @@ class CandidatePipeline:
                 code = extract_h_function(response)
 
                 if "def h(" not in code:
-                    print("  Warning: no def h(...) found (attempt {}), retrying...".format(attempt))
+                    print(f"  Warning: no def h(...) found (attempt {attempt}), retrying...")
                     continue
                 if "return" not in code:
-                    print("  Warning: no return found (attempt {}), retrying...".format(attempt))
+                    print(f"  Warning: no return found (attempt {attempt}), retrying...")
                     continue
 
                 ok, err = compile_check(code)
                 if not ok:
-                    print("  Warning: candidate does not compile (attempt {}): {}".format(attempt, err))
+                    print(f"  Warning: candidate does not compile (attempt {attempt}): {err}")
                     continue
 
                 if is_trivial_goal_count(code):
-                    print("  Warning: trivial goal-count detected (attempt {}), retrying...".format(attempt))
+                    print(f"  Warning: trivial goal-count detected (attempt {attempt}), retrying...")
                     continue
 
                 return code
 
             except Exception as e:
-                print("  Error (attempt {}): {}".format(attempt, e))
+                print(f"  Error (attempt {attempt}): {e}")
 
         # Fallback
         print("  Using fallback heuristic (goal-count) after retries exhausted")
@@ -200,24 +202,58 @@ class CandidatePipeline:
             "    return float(v) if v >= 0 else 0.0\n"
         )
 
-    def _build_prompt(self, domain_name, domain_pddl, variant_id):
+    def _build_prompt(self, domain_name: str, domain_pddl: str, variant_id: int) -> str:
         """
         Strong prompt with domain notes and diversity hints.
         """
+        dn = domain_name.lower()
         domain_notes = ""
-        if domain_name.lower() == "gripper":
+
+        if dn == "gripper":
             domain_notes = """
-Domain notes (Gripper):
-Predicates:
-- ('at-robby', room) : robot location
-- ('at', ball, room) : ball location
-- ('carry', ball, gripper) : ball carried
-- ('free', gripper) : gripper free
-Typical actions: move, pick, drop
-Robot moves between rooms (rooma/roomb). Two grippers => can carry up to 2 balls.
-Heuristic should approximate remaining pick/drop actions + remaining moves/trips (batching balls by room).
+You are a highly skilled professor in AI planning and a proficient Python programmer.
+Your task is to design a domain-dependent heuristic for the classical planning domain "Gripper".
+
+The planner represents states and goals as follows:
+- state: a frozenset of tuples like
+    ('at-robby', 'rooma'),
+    ('at', 'ball1', 'rooma'),
+    ('carry', 'ball2', 'left'),
+    ('free', 'right'), etc.
+- goals: (positive_goals, negative_goals), each a frozenset of tuples,
+  e.g. ('at', 'ball1', 'roomb') meaning ball1 should end up in roomb.
+
+You must implement the following Python function:
+
+    def h(state, goals):
+        \"\"\"
+        Domain-specific heuristic for the Gripper domain.
+        state: frozenset of ground predicates describing the current world.
+        goals: (positive_goals, negative_goals), each a frozenset of ground predicates.
+        Returns: a non-negative int or float estimating the remaining number of actions
+                 needed to reach a goal state from the current state.
+        The heuristic must be deterministic and must not modify state or goals.
+        It must run quickly and avoid any form of search.
+        \"\"\"
+
+High-level guidance for the heuristic:
+1. Interpret the goal:
+   - identify, for each ball, its desired destination room from positive_goals.
+2. From the current state, determine:
+   - the current room of the robot,
+   - for each ball, whether it is already at its goal room,
+   - which balls are currently carried in the left or right gripper, and which grippers are free.
+3. For balls that are not yet at their goal room, estimate:
+   - whether the robot must move from its current room to the ball's room,
+   - whether it must pick up the ball (respecting the two-gripper capacity),
+   - whether it must move to the goal room,
+   - whether it must drop the ball there.
+4. Combine these estimates into a single heuristic value:
+   - roughly count the remaining moves, picks, and drops,
+   - take into account that the robot has two grippers and can sometimes carry two balls per trip.
 """
-        elif domain_name.lower() == "blocksworld":
+
+        elif dn == "blocksworld":
             domain_notes = """
 Domain notes (Blocksworld):
 Predicates:
@@ -227,39 +263,94 @@ Predicates:
 - ('holding', x) : robot arm holds x
 - ('handempty',) : robot arm is empty
 Typical actions: pickup, putdown, stack, unstack.
-Heuristic should reason about blocks not yet in their goal positions and the number of moves to unstack/move them.
+
+Heuristic design hints:
+- Focus on blocks that are not yet in their goal position or have the wrong block on top.
+- Penalise blocks that are "buried" under wrong blocks which must be moved out of the way.
+- For each block:
+  - If it is already on the correct support with the correct tower above it, cost 0.
+  - If it is on the wrong support or has wrong blocks above, estimate unstack moves + stack moves needed.
+- Use the structure of ('on', ...), ('ontable', ...), and ('clear', ...) to approximate tower corrections, not just count goal literals.
 """
-        elif domain_name.lower() == "depots":
+
+        elif dn == "depots":
             domain_notes = """
-Domain notes (Depots):
-Predicates:
-- ('at', truck/hoist, place) : truck or hoist location
-- ('on', crate, surface) : crate stacked on surface
-- ('in', crate, truck) : crate loaded in truck
-- ('lifting', hoist, crate) : hoist currently lifting crate
-- ('available', hoist) : hoist is free
-- ('clear', surface) : surface has nothing on top
-Typical actions: drive, lift, drop, load, unload.
-Heuristic should count unplaced crates, estimate lifts/drops and truck drives needed.
+You are a highly skilled professor in AI planning and a proficient Python programmer.
+Your task is to design a domain-dependent heuristic for the classical planning domain "Depots".
+
+The planner represents states and goals as follows:
+- state: a frozenset of tuples like ('at', 'crate1', 'depot0'),
+         ('in', 'crate2', 'truck0'),
+         ('at-truck', 'truck0', 'distributor1'),
+         ('clear', 'crate3'), etc.
+- goals: (positive_goals, negative_goals), each a frozenset of tuples in the same format.
+
+You must implement the following Python function:
+
+    def h(state, goals):
+        \"\"\"
+        Domain-specific heuristic for the Depots domain.
+        state: frozenset of ground predicates describing the current world.
+        goals: (positive_goals, negative_goals), each a frozenset of ground predicates.
+        Returns: a non-negative int or float estimating the remaining number of actions
+                 needed to reach a goal state from the current state.
+        The heuristic must be deterministic and must not modify state or goals.
+        It must run quickly and avoid any form of search.
+        \"\"\"
+
+High-level guidance for the heuristic:
+1. Interpret the goal: for each crate, identify its desired destination location in positive_goals.
+2. From the current state, determine for each crate:
+   - where it is (on the ground at some location, in a truck, on another crate, etc.),
+   - whether it is already at its goal location.
+3. For crates that are not yet at their goal, estimate:
+   - how many load/unload operations are needed,
+   - whether a truck must drive between locations, and count such moves,
+   - any extra steps needed to clear blocking crates or free hoists.
+4. Combine these estimates into a single heuristic value:
+   - sum contributions over all crates,
+   - optionally add small extra costs when trucks or hoists are far from useful positions.
 """
-        elif domain_name.lower() == "logistics":
+
+        elif dn == "logistics":
             domain_notes = """
 Domain notes (Logistics):
 Predicates:
-- ('at', obj, loc) : package or vehicle at location
-- ('in', pkg, vehicle) : package loaded in vehicle
+- ('at', obj, loc) : package or vehicle at a location
+- ('in', pkg, vehicle) : package loaded in a vehicle
 Typical actions: load, unload, drive-truck, fly-airplane.
-Heuristic should count undelivered packages and estimate loads/unloads + drives/flights needed.
+
+Heuristic design hints:
+- Focus on packages that are not yet at their goal locations.
+- For each such package, estimate:
+  - 1 load + 1 unload if it is at a location served by the correct vehicle,
+  - plus some number of drives/flights if it must travel via multiple locations/vehicles.
+- Distinguish:
+  - packages already at their goal location (cost 0),
+  - packages in the correct vehicle but not yet unloaded,
+  - packages at completely wrong locations.
+- Count loads/unloads and movements of vehicles that actually bring packages closer to their goal; avoid counting moves that leave all packages at the same distance from their goals.
 """
-        elif domain_name.lower() == "transport":
+
+        elif dn == "transport":
             domain_notes = """
 Domain notes (Transport):
 Predicates:
-- ('at', obj, loc) : object or vehicle at location
-- ('in', pkg, veh) : package loaded in vehicle
+- ('at', obj, loc) : object or vehicle at a location
+- ('in', pkg, veh) : package loaded in a vehicle
 - ('road', loc1, loc2) : road between locations (if present)
 Vehicles carry packages along roads; typical actions: load, unload, drive.
-Heuristic should approximate remaining load/unload actions and drives to move packages to goal locations.
+
+Heuristic design hints:
+- Focus on packages that are not yet at their goal locations.
+- For each such package, estimate:
+  - 1 load + 1 unload if a vehicle at the same location can take it directly to its goal,
+  - plus some number of drives along the road network if it must travel via intermediate locations.
+- Distinguish:
+  - packages already at their goal location (cost 0),
+  - packages in the correct vehicle but not yet unloaded,
+  - packages at locations with no direct road to the goal (may need multiple drives).
+- Use ('road', ...), ('at', ...), and ('in', ...) to approximate the number of load/unload and drive actions remaining, rather than just counting goal predicates.
 """
 
         system = """You are an expert in classical planning and PDDL acting as a Python code generator for heuristic functions.
@@ -285,7 +376,16 @@ def h(state, goals):
     # your code here
 """
 
-        user = "You will receive the PDDL domain and the Python state representation.\nWrite a domain-aware heuristic h(state, goals) using predicates/structure to estimate remaining cost.\n\nPython representation:\n- state is frozenset of ground atoms tuples like ('at-robby', 'rooma'), ('at', 'ball1', 'rooma'), ('carry', 'ball2', 'right'), ('free', 'left')\n- goals is (positive_goals, negative_goals), each a frozenset of tuples\n\nPDDL Domain:\n{}\n\n{}\n\nReturn ONLY the Python function h(state, goals) as valid Python code, with no explanations or markdown.\n".format(domain_pddl, domain_notes)
+        user = (
+            "You will receive the PDDL domain and the Python state representation.\n"
+            "Write a domain-aware heuristic h(state, goals) using predicates/structure to estimate remaining cost.\n\n"
+            "Python representation:\n"
+            "- state is frozenset of ground atoms tuples like ('at-robby', 'rooma'), "
+            "('at', 'ball1', 'rooma'), ('carry', 'ball2', 'right'), ('free', 'left')\n"
+            "- goals is (positive_goals, negative_goals), each a frozenset of tuples\n\n"
+            f"PDDL Domain:\n{domain_pddl}\n\n{domain_notes}\n\n"
+            "Return ONLY the Python function h(state, goals) as valid Python code, with no explanations or markdown.\n"
+        )
 
         diversity = [
             "\n# Diversity hint: try batching/ceil trips with capacity 2.\n",
@@ -297,11 +397,11 @@ def h(state, goals):
 
         return system + "\n" + user + diversity
 
-    def evaluate_candidate(self, candidate, training_problems):
+    def evaluate_candidate(self, candidate: Dict[str, Any], training_problems):
         domain_name = candidate["domain"]
         candidate_id = candidate["id"]
 
-        candidate_file = self.llm_dir / "candidates" / "{}.py".format(candidate_id)
+        candidate_file = self.llm_dir / "candidates" / f"{candidate_id}.py"
         candidate_file.write_text(candidate["code"])
 
         results = {
@@ -314,7 +414,7 @@ def h(state, goals):
         }
 
         for prob in training_problems:
-            print("  Testing {} on {}...".format(candidate_id, prob))
+            print(f"  Testing {candidate_id} on {prob}...")
             success, expansions, t = self._run_planner_with_candidate(domain_name, prob, candidate_file)
             if success:
                 results["coverage"] += 1
@@ -333,9 +433,7 @@ def h(state, goals):
 
         return results
 
-
-
-    def _run_planner_with_candidate(self, domain_name, problem_file, candidate_py_file):
+    def _run_planner_with_candidate(self, domain_name: str, problem_file: str, candidate_py_file: Path):
         domain_path = self.domains_dir / domain_name / "domain.pddl"
         problem_path = self.domains_dir / domain_name / problem_file
         eval_script = self.llm_dir / "evaluate_candidate.py"
@@ -352,11 +450,11 @@ def h(state, goals):
                     "--candidate",
                     str(candidate_py_file),
                     "--timeout",
-                    "300",
+                    "90",
                 ],
                 capture_output=True,
                 text=True,
-                timeout=305,
+                timeout=95,
             )
 
             output = result.stdout.strip()
@@ -368,10 +466,17 @@ def h(state, goals):
             return False, 0, 0.0
 
         except Exception as e:
-            print("    Error running planner: {}".format(e))
+            print(f"    Error running planner: {e}")
             return False, 0, 0.0
 
-    def select_best_candidate(self, domain_name, evaluation_results):
+    def select_best_candidate(self, domain_name: str, evaluation_results, model_name: Optional[str] = None):
+        """
+        Select the best candidate by:
+          1) maximising coverage,
+          2) minimising avg_expansions,
+          3) then minimising avg_time.
+        Attach model_name so the selection JSON knows which model produced it.
+        """
         if not evaluation_results:
             return None
 
@@ -380,12 +485,13 @@ def h(state, goals):
             key=lambda r: (-r["coverage"], r["avg_expansions"], r["avg_time"]),
         )
         best = sorted_results[0]
+        best_with_model = dict(best)
+        best_with_model["model_name"] = model_name
 
-        print("\n=== Best candidate for {} ===".format(domain_name))
-        print("ID: {}".format(best["candidate_id"]))
-        print("Coverage: {}".format(best["coverage"]))
-        print("Avg Expansions: {}".format(best.get("avg_expansions", "N/A")))
-        print("Avg Time: {}".format(best.get("avg_time", "N/A")))
+        print(f"\n=== Best candidate for {domain_name} ({model_name}) ===")
+        print(f"ID: {best_with_model['candidate_id']}")
+        print(f"Coverage: {best_with_model['coverage']}")
+        print(f"Avg Expansions: {best_with_model.get('avg_expansions', 'N/A')}")
+        print(f"Avg Time: {best_with_model.get('avg_time', 'N/A')}")
 
-        return best
-
+        return best_with_model

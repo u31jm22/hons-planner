@@ -29,7 +29,7 @@ class OpenAIModel(ModelWrapper):
         """
         Args:
             api_key: Your OpenAI API key (if None, read from OPENAI_API_KEY env var).
-            model: Model name (e.g. gpt-4o-mini, gpt-4o, gpt-3.5-turbo).
+            model: Model name (e.g. gpt-4o-mini, gpt-4.1-mini, gpt-4o, gpt-3.5-turbo).
             temperature: 0.0 for deterministic, higher for creativity.
         """
         self.api_key = api_key

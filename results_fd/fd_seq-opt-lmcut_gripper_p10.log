@@ -1,0 +1,123 @@
+INFO     planner time limit: None
+INFO     planner memory limit: None
+
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /Users/joshuamccolgan/uni/hons-llm-heuristics/venv/bin/python3 -m translate /Users/joshuamccolgan/uni/hons-llm-heuristics/domains/gripper/domain.pddl /Users/joshuamccolgan/uni/hons-llm-heuristics/domains/gripper/p10.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.000s CPU, 0.005s wall-clock]
+Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.000s CPU, 0.002s wall-clock]
+Preparing model... [0.000s CPU, 0.001s wall-clock]
+Generated 24 rules.
+Computing model... [0.010s CPU, 0.003s wall-clock]
+351 relevant atoms
+240 auxiliary atoms
+591 final queue length
+792 total queue pushes
+Completing instantiation... [0.000s CPU, 0.004s wall-clock]
+Instantiating: [0.010s CPU, 0.010s wall-clock]
+Computing fact groups...
+Finding invariants...
+10 initial candidates
+Finding invariants: [0.000s CPU, 0.001s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+0 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.000s CPU, 0.003s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.000s wall-clock]
+Translating task: [0.010s CPU, 0.004s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+3 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.003s wall-clock]
+Reordering and filtering variables...
+25 of 25 variables necessary.
+22 of 25 mutex groups necessary.
+178 of 178 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 25
+Translator derived variables: 0
+Translator facts: 114
+Translator goal facts: 22
+Translator mutex groups: 22
+Translator total mutex groups size: 88
+Translator operators: 178
+Translator axioms: 0
+Translator task size: 1223
+warning: could not determine peak memory
+Writing output... [0.000s CPU, 0.002s wall-clock]
+Done! [0.020s CPU, 0.029s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /Users/joshuamccolgan/fast-downward/builds/release/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output.sas
+[t=0.005995s, 410072912 KB] Search code revision: 22844d420
+[t=0.006023s, 410072912 KB] reading input...
+[t=0.007282s, 410072912 KB] done reading input!
+[t=0.008445s, 410072912 KB] Initializing landmark cut heuristic...
+[t=0.008465s, 410072912 KB] Building successor generator... done!
+[t=0.008543s, 410072912 KB] peak memory difference for successor generator creation: 0 KB
+[t=0.008548s, 410072912 KB] time for successor generation creation: 0.000066s
+[t=0.008553s, 410072912 KB] Variables: 25
+[t=0.008558s, 410072912 KB] FactPairs: 114
+[t=0.008561s, 410072912 KB] Bytes per state: 8
+[t=0.008573s, 410072912 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+[t=0.008655s, 410072912 KB] New best heuristic value for lmcut: 45
+[t=0.008660s, 410072912 KB] g=0, 1 evaluated, 0 expanded
+[t=0.008665s, 410072912 KB] f = 45, 1 evaluated, 0 expanded
+[t=0.008683s, 410072912 KB] Initial heuristic value for lmcut: 45
+[t=0.008687s, 410072912 KB] pruning method: none
+[t=0.008824s, 410072912 KB] New best heuristic value for lmcut: 43
+[t=0.008830s, 410072912 KB] g=1, 3 evaluated, 1 expanded
+[t=0.037272s, 410072912 KB] New best heuristic value for lmcut: 42
+[t=0.037278s, 410072912 KB] g=3, 552 evaluated, 45 expanded
+[t=0.037329s, 410072912 KB] New best heuristic value for lmcut: 41
+[t=0.037333s, 410072912 KB] g=4, 553 evaluated, 46 expanded
+[t=0.156522s, 410082128 KB] f = 46, 3115 evaluated, 1937 expanded
+[t=0.588266s, 410213200 KB] f = 47, 12608 evaluated, 3071 expanded
+[t=0.588360s, 410213200 KB] New best heuristic value for lmcut: 40
+[t=0.588373s, 410213200 KB] g=7, 12609 evaluated, 3072 expanded
+[t=0.588427s, 410213200 KB] New best heuristic value for lmcut: 39
+[t=0.588459s, 410213200 KB] g=8, 12610 evaluated, 3073 expanded
+[t=0.613759s, 410213200 KB] New best heuristic value for lmcut: 38
+[t=0.613777s, 410213200 KB] g=9, 13188 evaluated, 3191 expanded
+[t=0.613827s, 410213200 KB] New best heuristic value for lmcut: 37
+[t=0.613842s, 410213200 KB] g=10, 13189 evaluated, 3192 expanded
+[t=15.054592s, 410513232 KB] f = 48, 341783 evaluated, 274408 expanded
+[t=38.639824s, 410538848 KB] f = 49, 877318 evaluated, 338703 expanded
+[t=38.640782s, 410538848 KB] New best heuristic value for lmcut: 36
+[t=38.640799s, 410538848 KB] g=13, 877319 evaluated, 338704 expanded
+[t=38.640852s, 410538848 KB] New best heuristic value for lmcut: 35
+[t=38.640865s, 410538848 KB] g=14, 877320 evaluated, 338705 expanded
+[t=38.663567s, 410538848 KB] New best heuristic value for lmcut: 34
+[t=38.663576s, 410538848 KB] g=15, 877876 evaluated, 338811 expanded
+[t=38.663622s, 410538848 KB] New best heuristic value for lmcut: 33
+[t=38.663627s, 410538848 KB] g=16, 877877 evaluated, 338812 expanded
+[t=346.623074s, 411145072 KB] f = 50, 8299117 evaluated, 7302814 expanded
+Peak memory: 411603824 KB
+caught signal 15 -- exiting

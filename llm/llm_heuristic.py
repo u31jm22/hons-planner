@@ -1,90 +1,101 @@
+from typing import Any, Dict, Iterable, Tuple
+import re
+
 """
 LLM-based heuristic for classical planning.
 """
-import hashlib
 
 
 class LLMHeuristic:
     """
-    Heuristic that calls an LLM to estimate distance to goal.
+    LLM-based heuristic integrated with Felipe's Python planner.
+
+    - Constructed once per problem.
+    - Called as h(actions, state, goals, parent=None) -> numeric heuristic.
+    - All LLM-specific logic (prompt building, API calls, caching) lives here.
     """
-    
-    def __init__(self, model, prompt_template: str, cache=None):
-        """
-        Args:
-            model: ModelWrapper instance
-            prompt_template: String with {state} and {goals} placeholders
-            cache: Dict for caching heuristic values by state
-        """
+
+    def __init__(
+        self,
+        domain_name: str,
+        model: Any,
+        prompt_template: str,
+        goal_description: str | None = None,
+        cache: Dict[str, float] | None = None,
+    ) -> None:
+        self.domain_name = domain_name
         self.model = model
         self.prompt_template = prompt_template
-        self.cache = cache if cache is not None else {}
-    
-    def __call__(self, actions, state, goals, parent=None):
+        self.goal_description = goal_description or ""
+        self.cache = cache or {}
+
+    def __call__(
+        self,
+        actions: Iterable[Any],
+        state: Any,
+        goals: Tuple[Iterable[Any], Iterable[Any]],
+        parent: Any | None = None,
+    ) -> float:
         """
-        Make the heuristic callable to match planner interface.
-        Planner calls: self.h(actions, state, goals, parent)
+        Compute a heuristic estimate for the given search state.
+
+        Parameters
+        ----------
+        actions : iterable
+            Ground actions available in the current problem (unused for now).
+        state : Any
+            Current search state object.
+        goals : (positive_goals, negative_goals)
+            Goal description from the planner (unused for now; we use goal_description).
+        parent : Any | None
+            Parent node in the search tree (unused, kept for interface compatibility).
         """
-        return self.h(actions, state, goals, parent)
-    
-    def h(self, actions, state, goals, parent):
+        key = self._state_key(state)
+        if key in self.cache:
+            return self.cache[key]
+
+        prompt = self._build_prompt(state)
+        raw_answer = self.model.predict(prompt)
+        h_value = self._parse_answer(raw_answer)
+
+        # Safety: ensure non-negative numeric heuristic
+        h_value = max(0.0, float(h_value))
+
+        self.cache[key] = h_value
+        return h_value
+
+    # -------- internal helpers --------
+
+    def _state_key(self, state: Any) -> str:
         """
-        Compute heuristic value for given state.
-        Must match Felipe's planner interface: h(actions, state, goals, parent)
+        Build a deterministic key for this state for caching.
         """
-        # Build cache key from state
-        state_key = self._hash_state(state)
-        
-        if state_key in self.cache:
-            return self.cache[state_key]
-        
-        # Convert state and goals to text
-        state_text = self._state_to_text(state)
-        goals_text = self._goals_to_text(goals)
-        
-        # Fill prompt template
-        prompt = self.prompt_template.format(
-            state=state_text,
-            goals=goals_text
+        facts = getattr(state, "facts", [])
+        return "|".join(sorted(map(str, facts)))
+
+    def _build_prompt(self, state: Any) -> str:
+        """
+        Turn the current state + goal into a concrete LLM prompt.
+        """
+        state_repr = self._state_to_text(state)
+        return self.prompt_template.format(
+            domain=self.domain_name,
+            state=state_repr,
+            goal=self.goal_description,
         )
-        
-        # Call model
-        response = self.model.predict(prompt)
-        
-        # Parse heuristic value
-        h_val = self._parse_response(response)
-        
-        # Cache and return
-        self.cache[state_key] = h_val
-        return h_val
-    
-    def _hash_state(self, state):
-        """Create a hashable key from state."""
-        # State is a frozenset of tuples, convert to sorted tuple for hashing
-        state_tuple = tuple(sorted(state))
-        return hashlib.md5(str(state_tuple).encode()).hexdigest()
-    
-    def _state_to_text(self, state):
-        """Convert state (frozenset of predicates) to readable text."""
-        facts = sorted(list(state))
-        return f"{len(facts)} facts: " + ", ".join(str(f) for f in facts[:10])
-    
-    def _goals_to_text(self, goals):
-        """Convert goals to readable text."""
-        goal_list = sorted(list(goals))
-        return f"{len(goal_list)} goals: " + ", ".join(str(g) for g in goal_list)
-    
-    def _parse_response(self, response: str) -> float:
+
+    def _state_to_text(self, state: Any) -> str:
         """
-        Extract a numeric heuristic value from LLM response.
-        Fallback to 0 if parsing fails.
+        Convert planner state into a textual description for the LLM.
         """
-        try:
-            # Try to find first number in response
-            import re
-            match = re.search(r'\d+\.?\d*', response)
-            if match:
-                return float(match.group())
+        facts = getattr(state, "facts", [])
+        return "\n".join(sorted(map(str, facts)))
+
+    def _parse_answer(self, answer: str) -> float:
+        """
+        Parse the LLM's answer string into a numeric heuristic value.
+        """
+        m = re.search(r"-?\d+(\.\d+)?", answer)
+        if not m:
             return 0.0
-        except:
-            return 0.0
+        return float(m.group(0))

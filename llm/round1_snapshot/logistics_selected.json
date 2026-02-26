@@ -1,0 +1,14 @@
+{
+  "candidate_id": "logistics_candidate_3",
+  "coverage": 3,
+  "total_expansions": 497074,
+  "total_time": 16.624616146087646,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 165691.33333333334,
+  "avg_time": 5.541538715362549
+}

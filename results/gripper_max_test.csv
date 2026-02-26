@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+gripper,p06.pddl,max,,0,15761,300.06544494628906,0
+gripper,p07.pddl,max,,0,6355,300.05367732048035,0
+gripper,p08.pddl,max,,0,3315,300.0405797958374,0
+gripper,p09.pddl,max,,0,2215,300.0341501235962,0
+gripper,p10.pddl,max,,0,2177,300.0365993976593,0

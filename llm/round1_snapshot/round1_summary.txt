@@ -1,0 +1,25 @@
+=== Best candidate for gripper ===
+ID: gripper_candidate_3
+Coverage: 3
+Avg Expansions: 4605.333333333333
+Avg Time: 1.2732596397399902
+
+=== Best candidate for depots ===
+ID: depots_candidate_5
+Coverage: 2
+Avg Expansions: 7761.5
+Avg Time: 0.5890840291976929
+
+# TODO: paste Blocksworld and Logistics best-candidate blocks here after those runs finish
+
+=== Best candidate for blocksworld ===
+ID: blocksworld_candidate_2
+Coverage: 3
+Avg Expansions: 99.0
+Avg Time: 0.0008672078450520834
+
+=== Best candidate for logistics ===
+ID: logistics_candidate_3
+Coverage: 3
+Avg Expansions: 165691.33333333334
+Avg Time: 5.541538715362549

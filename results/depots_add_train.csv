@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+depots,p01.pddl,add,,1,17,0.028321266174316406,10
+depots,p02.pddl,add,,1,51,0.12927746772766113,18
+depots,p03.pddl,add,,1,1588,8.92167043685913,33
+depots,p04.pddl,add,,1,15695,90.35671353340149,41
+depots,p05.pddl,add,,1,15256,220.12445902824402,63

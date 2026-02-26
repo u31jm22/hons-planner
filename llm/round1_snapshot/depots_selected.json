@@ -1,0 +1,15 @@
+{
+  "candidate_id": "depots_candidate_5",
+  "coverage": 2,
+  "total_expansions": 15523,
+  "total_time": 1.1781680583953857,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl"
+  ],
+  "failed": [
+    "p03.pddl"
+  ],
+  "avg_expansions": 7761.5,
+  "avg_time": 0.5890840291976929
+}

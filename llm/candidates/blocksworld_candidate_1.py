@@ -1,30 +1,24 @@
 def h(state, goals):
     """
-    Domain-specific heuristic for this planning domain.
-    state: frozenset of tuples like ('at', 'ball1', 'rooma')
+    Domain-specific heuristic for the BLOCKS domain.
+    state: frozenset of tuples like ('on', 'blocka', 'blockb'), ('ontable', 'blockc'), ('clear', 'blockd'), ('holding', 'blocke'), ('handempty',)
     goals: (positive_goals, negative_goals), each a frozenset of tuples
     Returns: non-negative int or float heuristic estimate.
     """
-    positive_goals, negative_goals = goals
-    heuristic_cost = 0
+    def is_goal_achieved(block, support, above_block):
+        return ('on', block, support) in goals[0] and ('clear', block) in goals[0] and (('ontable', block) in goals[0] or ('on', block, above_block) in goals[0])
 
-    # Count blocks that are not in their goal positions
-    for g in positive_goals:
-        if g[0] == 'on':
-            block, target = g[1], g[2]
-            if not any((block == b and target == t) for b, t in state if b == 'on'):
-                heuristic_cost += 1  # Needs to be moved to the target position
-        elif g[0] == 'ontable':
-            block = g[1]
-            if not any((block == b) for b in state if b == 'ontable'):
-                heuristic_cost += 1  # Needs to be placed on the table
-        elif g[0] == 'clear':
-            block = g[1]
-            if not any((block == b) for b in state if b == 'clear'):
-                heuristic_cost += 1  # Needs to be made clear
+    def estimate_moves_to_correct(block, support, above_block):
+        if is_goal_achieved(block, support, above_block):
+            return 0
+        else:
+            return 2  # Need at least one unstack and one stack move
 
-    # Estimate the number of actions needed to achieve the remaining goals
-    # Each block requires at least one action to pick up and one to place down
-    heuristic_cost *= 2  # Each block typically requires two actions (pick and place)
+    total_cost = 0
+    for fact in state:
+        if fact[0] == 'on':
+            block, support = fact[1], fact[2]
+            above_block = next((b for (b, s) in state if s == block), None)
+            total_cost += estimate_moves_to_correct(block, support, above_block)
 
-    return heuristic_cost
+    return total_cost

@@ -1,21 +1,22 @@
 def h(state, goals):
     """
     Domain-specific heuristic for the BLOCKS world planning domain.
-    state: frozenset of tuples like ('on', 'block1', 'block2'), ('ontable', 'block3'), ('clear', 'block4'), ('holding', 'block5'), ('handempty',)
+    state: frozenset of tuples like ('on', 'blocka', 'blockb'), ('ontable', 'blockc'), ('clear', 'blockd'), ('holding', 'blocke')
     goals: (positive_goals, negative_goals), each a frozenset of tuples
     Returns: non-negative int or float heuristic estimate.
     """
+    def is_goal_achieved(block, target):
+        return any((('on', block, target) in goals[0], ('ontable', block) in goals[0], ('clear', block) in goals[0]))
 
-    # Count the number of blocks not in their goal positions
-    blocks_not_in_goal = 0
-    for block in state:
-        if block[0] == 'on' and block[1] != block[2]:
-            blocks_not_in_goal += 1
+    def blocks_to_move(block):
+        if is_goal_achieved(block, 'table'):
+            return 0
 
-    # Estimate the remaining number of moves needed to unstack/move blocks
-    remaining_moves = 0
-    for block in state:
-        if block[0] == 'on':
-            remaining_moves += 1
+        on_block = [b for b in state if b[0] == 'on' and b[1] == block]
+        if on_block:
+            return 1 + max([blocks_to_move(b[2]) for b in on_block])
+        else:
+            return float('inf')
 
-    return max(blocks_not_in_goal, remaining_moves)
+    total_cost = sum(blocks_to_move(block[1]) for block in state if block[0] == 'on')
+    return total_cost

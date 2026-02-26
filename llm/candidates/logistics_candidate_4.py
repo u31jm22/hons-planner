@@ -1,30 +1,36 @@
 def h(state, goals):
     """
-    Domain-specific heuristic for the logistics planning domain.
-    state: frozenset of tuples like ('at-robby', 'rooma'), ('at', 'ball1', 'rooma'), ('carry', 'ball2', 'right'), ('free', 'left')
+    Domain-specific heuristic for the logistics domain.
+    state: frozenset of tuples like ('at', obj, loc), ('in', pkg, vehicle)
     goals: (positive_goals, negative_goals), each a frozenset of tuples
     Returns: non-negative int or float heuristic estimate.
     """
+    # Extract positive goals
+    positive_goals, _ = goals
 
-    def pick_drop_count(state, goals):
-        pick_count = 0
-        drop_count = 0
+    # Initialize heuristic cost
+    cost = 0
 
-        for goal in goals:
-            if ('in', goal[0], goal[1]) in state:
-                pick_count += 1
-            else:
-                drop_count += 1
+    # Initialize sets to keep track of packages at their goal locations and in the correct vehicle but not yet unloaded
+    packages_at_goal = set()
+    packages_in_correct_vehicle = set()
 
-        return pick_count + drop_count
+    # Iterate over state to populate the sets
+    for atom in state:
+        if atom[0] == 'at' and atom in positive_goals:
+            packages_at_goal.add(atom[1])
+        if atom[0] == 'in' and atom[1] in positive_goals and ('at', atom[2], atom[1]) in state:
+            packages_in_correct_vehicle.add(atom[1])
 
-    def move_count(state, goals):
-        move_count = 0
+    # Count the number of loads/unloads and movements needed to bring packages closer to their goals
+    for atom in state:
+        if atom[0] == 'at' and atom[1] not in packages_at_goal:
+            if ('in', atom[1], _) not in state:
+                cost += 1  # Load the package
+            if ('in', atom[1], _) in state and atom[1] not in packages_in_correct_vehicle:
+                cost += 1  # Unload the package
+            # Additional cost for moving the vehicle/plane
+            if atom[2] != goals[0][goals[0].index(('at', atom[1], _))][2]:
+                cost += 1
 
-        for goal in goals:
-            if ('at', goal[0], goal[1]) not in state:
-                move_count += 1
-
-        return move_count
-
-    return max(pick_drop_count(state, goals), move_count(state, goals))
+    return cost

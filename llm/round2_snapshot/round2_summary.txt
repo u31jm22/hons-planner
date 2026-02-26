@@ -1,0 +1,23 @@
+=== Best candidate for gripper (Round 2) ===
+ID: gripper_candidate_2
+Coverage: 4/5
+Avg Expansions: 20221.25
+Avg Time: 10.593307614326477
+
+=== Best candidate for depots (Round 2) ===
+ID: depots_candidate_1
+Coverage: 4/5
+Avg Expansions: 5167.25
+Avg Time: 0.8825387358665466
+
+=== Best candidate for blocksworld (Round 2) ===
+ID: blocksworld_candidate_4
+Coverage: 5/5
+Avg Expansions: 329.8
+Avg Time: 0.004467535018920899
+
+=== Best candidate for logistics (Round 2) ===
+ID: logistics_candidate_3
+Coverage: 5/5
+Avg Expansions: 33161.8
+Avg Time: 1.1413722038269043

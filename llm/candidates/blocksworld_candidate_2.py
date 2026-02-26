@@ -1,41 +1,37 @@
 def h(state, goals):
     """
-    Domain-specific heuristic for this planning domain.
-    state: frozenset of tuples like ('at', 'ball1', 'rooma')
+    Domain-specific heuristic for the BLOCKS planning domain.
+    state: frozenset of tuples like ('on', 'blocka', 'blockb'), ('ontable', 'blockc'), ('clear', 'blockd'), ('holding', 'blocke'), ('handempty',)
     goals: (positive_goals, negative_goals), each a frozenset of tuples
     Returns: non-negative int or float heuristic estimate.
     """
-    positive_goals, negative_goals = goals
-    heuristic = 0
+    def get_top_block(blocks, block):
+        supported_block = None
+        for b in blocks:
+            if ('on', block, b) in state:
+                supported_block = b
+        return supported_block
 
-    for g in positive_goals:
-        if g[0] == 'on':
-            block, surface = g[1], g[2]
-            if not any((block == b and surface == s) for b, s in state if b == block and ('on', block, surface) in state):
-                heuristic += 1  # Block is not on the correct surface
-                if not any(('clear', surface) in state for b in state if ('on', block, b) in state):
-                    heuristic += 1  # Surface is not clear
-        elif g[0] == 'ontable':
-            block = g[1]
-            if not any(('ontable', block) in state):
-                heuristic += 1  # Block is not on the table
-        elif g[0] == 'clear':
-            block = g[1]
-            if not any(('clear', block) in state):
-                heuristic += 1  # Block is not clear
+    def is_goal_satisfied(goal):
+        return goal in state
 
-    for g in negative_goals:
-        if g[0] == 'on':
-            block, surface = g[1], g[2]
-            if any((block == b and surface == s) for b, s in state if b == block and ('on', block, surface) in state):
-                heuristic += 1  # Block is incorrectly placed
-        elif g[0] == 'ontable':
-            block = g[1]
-            if any(('ontable', block) in state):
-                heuristic += 1  # Block should not be on the table
-        elif g[0] == 'clear':
-            block = g[1]
-            if any(('clear', block) in state):
-                heuristic += 1  # Block should not be clear
+    def get_blocks_to_move():
+        blocks_to_move = set()
+        for goal in goals[0]:
+            if goal[0] == 'on':
+                block, support = goal[1], goal[2]
+                top_block = get_top_block(goals[0], support)
+                if top_block != block:
+                    blocks_to_move.add(block)
+        return blocks_to_move
 
-    return heuristic
+    def estimate_block_moves(block):
+        moves = 0
+        while block not in goals[0]:
+            moves += 1
+            block = get_top_block(goals[0], block)
+        return moves
+
+    blocks_to_move = get_blocks_to_move()
+    total_moves = sum(estimate_block_moves(block) for block in blocks_to_move)
+    return total_moves
