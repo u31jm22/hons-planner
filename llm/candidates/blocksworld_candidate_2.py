@@ -1,37 +1,48 @@
 def h(state, goals):
-    """
-    Domain-specific heuristic for the BLOCKS planning domain.
-    state: frozenset of tuples like ('on', 'blocka', 'blockb'), ('ontable', 'blockc'), ('clear', 'blockd'), ('holding', 'blocke'), ('handempty',)
-    goals: (positive_goals, negative_goals), each a frozenset of tuples
-    Returns: non-negative int or float heuristic estimate.
-    """
-    def get_top_block(blocks, block):
-        supported_block = None
-        for b in blocks:
-            if ('on', block, b) in state:
-                supported_block = b
-        return supported_block
-
-    def is_goal_satisfied(goal):
-        return goal in state
-
-    def get_blocks_to_move():
-        blocks_to_move = set()
-        for goal in goals[0]:
-            if goal[0] == 'on':
-                block, support = goal[1], goal[2]
-                top_block = get_top_block(goals[0], support)
-                if top_block != block:
-                    blocks_to_move.add(block)
-        return blocks_to_move
-
-    def estimate_block_moves(block):
-        moves = 0
-        while block not in goals[0]:
-            moves += 1
-            block = get_top_block(goals[0], block)
-        return moves
-
-    blocks_to_move = get_blocks_to_move()
-    total_moves = sum(estimate_block_moves(block) for block in blocks_to_move)
-    return total_moves
+    positive_goals, negative_goals = goals
+    on = {a[1]: a[2] for a in state if a[0] == 'on'}
+    clear = {a[1] for a in state if a[0] == 'clear'}
+    ontable = {a[1] for a in state if a[0] == 'ontable'}
+    holding = None
+    for a in state:
+        if a[0] == 'holding':
+            holding = a[1]
+            break
+    cost = 0
+    # Helper: count blocks above x
+    def blocks_above(x):
+        count = 0
+        stack_top = [b for b, s in on.items() if s == x]
+        while stack_top:
+            b = stack_top.pop()
+            count += 1
+            stack_top.extend([bb for bb, ss in on.items() if ss == b])
+        return count
+    for g in positive_goals:
+        if g[0] == 'on':
+            x, y = g[1], g[2]
+            if on.get(x) == y:
+                continue
+            # Base cost: unstack x + stack x on y
+            c = 2
+            # If y is not clear and not ontable, need to clear y first
+            if y not in clear and y not in ontable:
+                c += 1
+            # Add cost for blocks above x: each needs unstack + putdown (2 each)
+            c += 2 * blocks_above(x)
+            # If holding a block different from x, add cost to put it down first
+            if holding is not None and holding != x:
+                c += 1
+            cost += c
+        elif g[0] == 'ontable':
+            x = g[1]
+            if x in ontable:
+                continue
+            c = 2  # pick up + put down on table
+            # Add cost for blocks above x
+            c += 2 * blocks_above(x)
+            # If holding a block different from x, add cost to put it down first
+            if holding is not None and holding != x:
+                c += 1
+            cost += c
+    return float(cost)

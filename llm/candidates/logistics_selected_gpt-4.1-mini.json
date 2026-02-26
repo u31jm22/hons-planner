@@ -1,0 +1,15 @@
+{
+  "candidate_id": "logistics_candidate_5",
+  "coverage": 3,
+  "total_expansions": 21599,
+  "total_time": 0.7388730049133301,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 7199.666666666667,
+  "avg_time": 0.2462910016377767,
+  "model_name": "gpt-4.1-mini"
+}
