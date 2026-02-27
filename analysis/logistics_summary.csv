@@ -1,5 +1,0 @@
-domain,heuristic,model,instances,coverage,coverage_rate,avg_expansions,avg_search_time,avg_plan_length
-logistics,add,,5,5,1.0,185.0,0.0830268383026123,20.2
-logistics,ff,,5,5,1.0,1445.2,0.5868224620819091,19.2
-logistics,llm-selected,gpt-4o-mini,5,5,1.0,137496.4,4.755111217498779,19.2
-logistics,max,,5,5,1.0,138174.4,25.181407499313355,19.2
