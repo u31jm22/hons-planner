@@ -1,0 +1,121 @@
+INFO     planner time limit: None
+INFO     planner memory limit: None
+
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -m translate /Users/joshuamccolgan/uni/hons-llm-heuristics/domains/gripper/domain.pddl /Users/joshuamccolgan/uni/hons-llm-heuristics/domains/gripper/p11.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.010s CPU, 0.003s wall-clock]
+Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.000s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
+Preparing model... [0.000s CPU, 0.001s wall-clock]
+Generated 24 rules.
+Computing model... [0.000s CPU, 0.005s wall-clock]
+381 relevant atoms
+260 auxiliary atoms
+641 final queue length
+860 total queue pushes
+Completing instantiation... [0.000s CPU, 0.002s wall-clock]
+Instantiating: [0.000s CPU, 0.009s wall-clock]
+Computing fact groups...
+Finding invariants...
+10 initial candidates
+Finding invariants: [0.000s CPU, 0.001s wall-clock]
+Checking invariant weight... [0.010s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+0 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.010s CPU, 0.003s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.000s wall-clock]
+Translating task: [0.000s CPU, 0.003s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+3 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.001s wall-clock]
+Reordering and filtering variables...
+27 of 27 variables necessary.
+24 of 27 mutex groups necessary.
+194 of 194 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 27
+Translator derived variables: 0
+Translator facts: 124
+Translator goal facts: 24
+Translator mutex groups: 24
+Translator total mutex groups size: 96
+Translator operators: 194
+Translator axioms: 0
+Translator task size: 1333
+warning: could not determine peak memory
+Writing output... [0.000s CPU, 0.002s wall-clock]
+Done! [0.020s CPU, 0.022s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /Users/joshuamccolgan/fast-downward/builds/release/bin/downward --search 'astar(lmcut())' --internal-plan-file sas_plan < output.sas
+[t=0.000207s, 410597232 KB] Search code revision: 22844d420
+[t=0.000239s, 410597232 KB] reading input...
+[t=0.001345s, 410597232 KB] done reading input!
+[t=0.002062s, 410597232 KB] Initializing landmark cut heuristic...
+[t=0.002100s, 410597232 KB] Building successor generator... done!
+[t=0.002163s, 410597232 KB] peak memory difference for successor generator creation: 0 KB
+[t=0.002169s, 410597232 KB] time for successor generation creation: 0.000047s
+[t=0.002175s, 410597232 KB] Variables: 27
+[t=0.002180s, 410597232 KB] FactPairs: 124
+[t=0.002186s, 410597232 KB] Bytes per state: 8
+[t=0.002196s, 410597232 KB] Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+[t=0.002290s, 410597232 KB] New best heuristic value for lmcut: 49
+[t=0.002300s, 410597232 KB] g=0, 1 evaluated, 0 expanded
+[t=0.002306s, 410597232 KB] f = 49, 1 evaluated, 0 expanded
+[t=0.002370s, 410597232 KB] Initial heuristic value for lmcut: 49
+[t=0.002377s, 410597232 KB] pruning method: none
+[t=0.002543s, 410597232 KB] New best heuristic value for lmcut: 47
+[t=0.002552s, 410597232 KB] g=1, 3 evaluated, 1 expanded
+[t=0.049667s, 410608496 KB] New best heuristic value for lmcut: 46
+[t=0.049722s, 410608496 KB] g=3, 650 evaluated, 49 expanded
+[t=0.049818s, 410608496 KB] New best heuristic value for lmcut: 45
+[t=0.049831s, 410608496 KB] g=4, 651 evaluated, 50 expanded
+[t=0.281119s, 410661744 KB] f = 50, 3710 evaluated, 2305 expanded
+[t=1.251498s, 410792816 KB] f = 51, 16154 evaluated, 3662 expanded
+[t=1.251629s, 410792816 KB] New best heuristic value for lmcut: 44
+[t=1.251642s, 410792816 KB] g=7, 16155 evaluated, 3663 expanded
+[t=1.251718s, 410792816 KB] New best heuristic value for lmcut: 43
+[t=1.251728s, 410792816 KB] g=8, 16156 evaluated, 3664 expanded
+[t=1.297580s, 410792816 KB] New best heuristic value for lmcut: 42
+[t=1.297641s, 410792816 KB] g=9, 16836 evaluated, 3794 expanded
+[t=1.297717s, 410792816 KB] New best heuristic value for lmcut: 41
+[t=1.297725s, 410792816 KB] g=10, 16837 evaluated, 3795 expanded
+[t=35.813160s, 411054960 KB] f = 52, 490276 evaluated, 392618 expanded
+[t=110.203387s, 411104128 KB] f = 53, 1353006 evaluated, 486228 expanded
+[t=110.203831s, 411104128 KB] New best heuristic value for lmcut: 40
+[t=110.203845s, 411104128 KB] g=13, 1353007 evaluated, 486229 expanded
+[t=110.204102s, 411104128 KB] New best heuristic value for lmcut: 39
+[t=110.204111s, 411104128 KB] g=14, 1353008 evaluated, 486230 expanded
+[t=110.245802s, 411104128 KB] New best heuristic value for lmcut: 38
+[t=110.245862s, 411104128 KB] g=15, 1353666 evaluated, 486348 expanded
+[t=110.245942s, 411104128 KB] New best heuristic value for lmcut: 37
+[t=110.245950s, 411104128 KB] g=16, 1353667 evaluated, 486349 expanded
+[t=1304.206586s, 412095376 KB] f = 54, 14536330 evaluated, 12744078 expanded

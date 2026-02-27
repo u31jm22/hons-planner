@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 (define (problem BW-rand-10)
@@ -32,3 +33,12 @@
 )
 
 
+=======
+(define (problem BLOCKS-8-0)
+(:domain BLOCKS)
+(:objects H G F E C B D A - block)
+(:INIT (CLEAR A) (CLEAR D) (CLEAR B) (CLEAR C) (ONTABLE E) (ONTABLE F)
+ (ONTABLE B) (ONTABLE C) (ON A G) (ON G E) (ON D H) (ON H F) (HANDEMPTY))
+(:goal (AND (ON D F) (ON F E) (ON E H) (ON H C) (ON C A) (ON A G) (ON G B)))
+)
+>>>>>>> e6e1faca4ef751d715d80f51f83d279b1e3bed2f

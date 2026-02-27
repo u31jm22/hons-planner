@@ -1,6 +1,14 @@
 domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+<<<<<<< HEAD
 blocksworld,p01.pddl,llm-selected,gpt-4.1-mini,1,13,0.0007071495056152344,6
 blocksworld,p02.pddl,llm-selected,gpt-4.1-mini,1,16,0.0006396770477294922,10
 blocksworld,p03.pddl,llm-selected,gpt-4.1-mini,1,11,0.0005171298980712891,6
 blocksworld,p04.pddl,llm-selected,gpt-4.1-mini,1,37,0.0020804405212402344,12
 blocksworld,p05.pddl,llm-selected,gpt-4.1-mini,1,25,0.0013394355773925781,10
+=======
+blocksworld,p01.pddl,llm-selected,gpt-4.1-mini,1,13,0.0001671314239501953,6
+blocksworld,p02.pddl,llm-selected,gpt-4.1-mini,1,16,0.00016999244689941406,10
+blocksworld,p03.pddl,llm-selected,gpt-4.1-mini,1,11,0.00011873245239257812,6
+blocksworld,p04.pddl,llm-selected,gpt-4.1-mini,1,37,0.0010082721710205078,12
+blocksworld,p05.pddl,llm-selected,gpt-4.1-mini,1,25,0.0003790855407714844,10
+>>>>>>> e6e1faca4ef751d715d80f51f83d279b1e3bed2f

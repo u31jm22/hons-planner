@@ -1,6 +1,16 @@
-venv/
+# macOS artefacts
+._*
+.DS_Store
+
+# Python
 __pycache__/
 *.pyc
-planner/simplafy-devel/__pycache__/
+venv/
 
-hons-llm-heuristics_macleod_copy
+# Logs
+logs/
+
+# Fast Downward output files
+*.sas
+output
+sas_plan*
