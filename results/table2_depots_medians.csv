@@ -1,0 +1,8 @@
+domain,range,method,coverage_mean,expansions_median_solved,time_median_solved,plan_length_median_solved
+depots,test,fd-lmcut,0.4,75208.5,36.1761965,22.5
+depots,test,llm-gpt-4o-mini,0.4,28109.5,50.41805994510651,23.5
+depots,train,add,1.0,1588.0,8.92167043685913,33.0
+depots,train,fd-lmcut,0.8,19114.5,3.198651,21.0
+depots,train,ff,0.8,4244.5,17.74196445941925,23.0
+depots,train,llm-gpt-4o-mini,1.0,6705.0,1.8844656944274905,30.0
+depots,train,max,0.4,2908.5,4.190369725227356,12.5
