@@ -1,0 +1,9 @@
+domain,range,add,fd-lmcut,ff,llm-gpt-4.1-mini,llm-gpt-4o-mini,max
+blocksworld,test,5.0,10.0,5.0,5.0,5.0,5.0
+blocksworld,train,5.0,10.0,5.0,5.0,5.0,5.0
+depots,test,0.0,4.0,0.0,0.0,2.0,0.0
+depots,train,5.0,8.0,4.0,2.0,5.0,2.0
+gripper,test,0.0,4.0,0.0,5.0,0.0,0.0
+gripper,train,4.0,10.0,4.0,5.0,4.0,3.0
+logistics,test,5.0,10.0,5.0,5.0,5.0,5.0
+logistics,train,5.0,10.0,5.0,5.0,5.0,5.0

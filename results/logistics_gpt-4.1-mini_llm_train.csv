@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+logistics,p01.pddl,llm-selected,gpt-4.1-mini,1,12711,1.0061683654785156,20
+logistics,p02.pddl,llm-selected,gpt-4.1-mini,1,5763,0.41173601150512695,19
+logistics,p03.pddl,llm-selected,gpt-4.1-mini,1,3125,0.21837592124938965,16
+logistics,p04.pddl,llm-selected,gpt-4.1-mini,1,34896,2.630643606185913,28
+logistics,p05.pddl,llm-selected,gpt-4.1-mini,1,2912,0.2500615119934082,19
