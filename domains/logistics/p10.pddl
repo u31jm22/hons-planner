@@ -1,5 +1,5 @@
 (define (problem logistics-6-3)
-(:domain logistics)
+(:domain logistics-strips)
 (:objects
  apn1 - airplane
  apt2 apt1 - airport
