@@ -3,7 +3,10 @@
 
 import re
 import os
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    plt = None
 from enum import StrEnum
 from typing import Iterable, Iterator
 
