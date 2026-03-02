@@ -30,14 +30,6 @@ for domain in gripper blocksworld logistics miconic; do
       --output-csv results/${domain}_${h}_all30.csv
   done
 
-  echo "=== $domain: LLM gpt-4o-mini (all 30) ==="
-  python -m planner.run_grid \
-    --domain $domain \
-    --mode llm-selected \
-    --model gpt-4o-mini \
-    --instances-file all_instances.txt \
-    --output-csv results/${domain}_gpt-4o-mini_llm_all30.csv
-
   echo "=== $domain: LLM gpt-4.1-mini (all 30) ==="
   python -m planner.run_grid \
     --domain $domain \
