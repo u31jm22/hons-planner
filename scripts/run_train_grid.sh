@@ -17,7 +17,7 @@ cd ~/hons-llm-heuristics
 module load python/3.11.7
 source venv/bin/activate
 
-for domain in gripper depots blocksworld logistics; do
+for domain in gripper blocksworld logistics miconic; do
   # Baselines: ff, max, add for p01–p05
   for h in ff max add; do
     echo "Running $domain baseline=$h (p01–p05)..."
