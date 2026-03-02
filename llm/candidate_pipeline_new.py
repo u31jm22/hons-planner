@@ -408,9 +408,56 @@ def h(state, goals):
     return float(cost)
 """
 
+elif dn == "miconic":
+            domain_notes = """Domain: Miconic (lift/elevator moves passengers between floors).
+State atoms: ('lift-at', floor), ('boarded', passenger), ('not-boarded', passenger),
+             ('served', passenger), ('not-served', passenger),
+             ('origin', passenger, floor), ('destin', passenger, floor),
+             ('above', floor1, floor2).
+Goals: positive_goals contains ('served', passenger) targets.
+Actions: board (lift at origin floor -> passenger boards),
+         depart (lift at dest floor + boarded -> passenger served),
+         up/down (move lift one floor using 'above' relation).
+Heuristic idea:
+  - For each unserved passenger (not in 'served'):
+    - If boarded: need 1 depart + floors to travel to destination.
+    - If not boarded: need floors to travel to origin + 1 board + floors to destination + 1 depart.
+  - Use 'above' chain or count to estimate floor distance.
+  - Sum over all unserved passengers.
+Example correct heuristic (do NOT copy exactly, write your own variation):
+def h(state, goals):
+    positive_goals, negative_goals = goals
+    lift_floor = next((a[1] for a in state if a[0] == 'lift-at'), None)
+    boarded = {a[1] for a in state if a[0] == 'boarded'}
+    served = {a[1] for a in state if a[0] == 'served'}
+    origins = {a[1]: a[2] for a in state if a[0] == 'origin'}
+    destins = {a[1]: a[2] for a in state if a[0] == 'destin'}
+    above = {(a[1], a[2]) for a in state if a[0] == 'above'}
+    def floor_dist(f1, f2):
+        if f1 == f2: return 0
+        visited, frontier, depth = {f1}, {f1}, 0
+        while frontier and depth < 20:
+            depth += 1
+            nxt = {b for (a, b) in above if a in frontier} | {a for (a, b) in above if b in frontier}
+            nxt -= visited
+            if f2 in nxt: return depth
+            visited |= nxt
+            frontier = nxt
+        return 10
+    goal_passengers = {g[1] for g in positive_goals if g[0] == 'served'}
+    cost = 0
+    for p in goal_passengers:
+        if p in served: continue
+        dest = destins.get(p)
+        if p in boarded:
+            cost += floor_dist(lift_floor, dest) + 1
+        else:
+            orig = origins.get(p)
+            cost += floor_dist(lift_floor, orig) + 1 + floor_dist(orig, dest) + 1
+    return float(cost)
+"""
         else:
             domain_notes = ""
-
         system = (
             "You are an expert in classical planning and PDDL acting as a Python code generator for heuristic functions.\n"
             "Write a single Python function h(state, goals) that computes a domain-aware heuristic.\n\n"
