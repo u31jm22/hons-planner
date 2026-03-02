@@ -19,9 +19,8 @@ from pddl.delete_relaxation_h import (
 
 # Import LLM heuristics from llm/ folder
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from llm.llm_heuristic import LLMHeuristic
 from llm.llm_code_heuristic import LLMCodeHeuristic
-from llm.model_wrapper import DummyModel, OpenAIModel
+from llm.llm_code_heuristic import LLMCodeHeuristic
 
 
 
@@ -50,7 +49,7 @@ def build_heuristic(name: str, domain_path: str, openai_key: str = None):
             print("WARNING: No OpenAI key provided, using DummyModel")
             model = DummyModel(fixed_value=5.0)
         
-        return LLMHeuristic(model=model, prompt_template=template)
+        return LLMCodeHeuristic(model=model, prompt_template=template)
     
     if name == "llm-code":
         # Code generation: LLM generates heuristic function once

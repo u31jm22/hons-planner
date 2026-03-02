@@ -1,0 +1,11 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+gripper,p11.pddl,llm-selected,gpt-4.1-mini,1,5223,55.4209189414978,71
+gripper,p12.pddl,llm-selected,gpt-4.1-mini,1,6580,105.86385822296143,77
+gripper,p13.pddl,llm-selected,gpt-4.1-mini,1,8153,123.15288281440735,83
+gripper,p14.pddl,llm-selected,gpt-4.1-mini,1,9958,169.38225197792053,89
+gripper,p15.pddl,llm-selected,gpt-4.1-mini,1,12011,258.58916091918945,95
+gripper,p16.pddl,llm-selected,gpt-4.1-mini,0,11644,301.1555588245392,0
+gripper,p17.pddl,llm-selected,gpt-4.1-mini,0,11459,301.3777530193329,0
+gripper,p18.pddl,llm-selected,gpt-4.1-mini,0,7334,300.4337000846863,0
+gripper,p19.pddl,llm-selected,gpt-4.1-mini,0,5717,301.41216015815735,0
+gripper,p20.pddl,llm-selected,gpt-4.1-mini,0,4945,300.69702887535095,0

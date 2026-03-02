@@ -1,1 +1,11 @@
 domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+logistics,p11.pddl,llm-selected,gpt-4.1-mini,0,2,0.0012562274932861328,0
+logistics,p12.pddl,llm-selected,gpt-4.1-mini,0,2,0.001074075698852539,0
+logistics,p13.pddl,llm-selected,gpt-4.1-mini,0,2,0.0010030269622802734,0
+logistics,p14.pddl,llm-selected,gpt-4.1-mini,0,2,0.0007650852203369141,0
+logistics,p15.pddl,llm-selected,gpt-4.1-mini,0,2,0.0005340576171875,0
+logistics,p16.pddl,llm-selected,gpt-4.1-mini,0,2,0.0007791519165039062,0
+logistics,p17.pddl,llm-selected,gpt-4.1-mini,0,2,0.0006277561187744141,0
+logistics,p18.pddl,llm-selected,gpt-4.1-mini,0,2,0.0009350776672363281,0
+logistics,p19.pddl,llm-selected,gpt-4.1-mini,0,2,0.0008718967437744141,0
+logistics,p20.pddl,llm-selected,gpt-4.1-mini,0,2,0.0011739730834960938,0

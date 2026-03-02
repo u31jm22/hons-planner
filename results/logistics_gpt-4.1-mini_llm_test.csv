@@ -1,14 +1,6 @@
 domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
-<<<<<<< HEAD
-logistics,p06.pddl,llm-selected,gpt-4.1-mini,1,12,0.002312183380126953,8
-logistics,p07.pddl,llm-selected,gpt-4.1-mini,1,10725,0.9675095081329346,26
-logistics,p08.pddl,llm-selected,gpt-4.1-mini,1,358,0.025269031524658203,14
-logistics,p09.pddl,llm-selected,gpt-4.1-mini,1,14451,1.1479671001434326,27
-logistics,p10.pddl,llm-selected,gpt-4.1-mini,1,10434,0.7133173942565918,25
-=======
-logistics,p06.pddl,llm-selected,gpt-4.1-mini,1,12,0.0005619525909423828,8
-logistics,p07.pddl,llm-selected,gpt-4.1-mini,1,10725,0.38500523567199707,26
-logistics,p08.pddl,llm-selected,gpt-4.1-mini,1,358,0.012560844421386719,14
-logistics,p09.pddl,llm-selected,gpt-4.1-mini,1,14451,0.6843860149383545,27
-logistics,p10.pddl,llm-selected,gpt-4.1-mini,1,10434,0.3840622901916504,25
->>>>>>> e6e1faca4ef751d715d80f51f83d279b1e3bed2f
+logistics,p01.pddl,llm-selected,gpt-4.1-mini,1,12711,0.4170100688934326,20
+logistics,p02.pddl,llm-selected,gpt-4.1-mini,1,5763,0.19365763664245605,19
+logistics,p03.pddl,llm-selected,gpt-4.1-mini,1,3125,0.10151481628417969,16
+logistics,p04.pddl,llm-selected,gpt-4.1-mini,1,34896,1.630958080291748,28
+logistics,p05.pddl,llm-selected,gpt-4.1-mini,1,2912,0.09818696975708008,19
