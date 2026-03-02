@@ -16,7 +16,7 @@ cd ~/hons-llm-heuristics
 module load python/3.11.7
 source venv/bin/activate
 
-for domain in gripper depots blocksworld logistics; do
+for domain in gripper blocksworld logistics miconic; do
   echo "Running $domain llm-selected gpt-4.1-mini train..."
   python -m planner.run_grid \
     --domain $domain \
