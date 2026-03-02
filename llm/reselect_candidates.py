@@ -142,7 +142,7 @@ def main():
     )
     parser.add_argument(
         "--domains", nargs="+",
-        default=["blocksworld", "logistics", "gripper", "depots"],
+                default=["blocksworld", "logistics", "gripper", "miconic"],
         help="Domains to process (default: all four)"
     )
     args = parser.parse_args()
