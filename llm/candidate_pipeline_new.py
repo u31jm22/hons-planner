@@ -408,7 +408,7 @@ def h(state, goals):
     return float(cost)
 """
 
-elif dn == "miconic":
+        elif dn == "miconic":
             domain_notes = """Domain: Miconic (lift/elevator moves passengers between floors).
 State atoms: ('lift-at', floor), ('boarded', passenger), ('not-boarded', passenger),
              ('served', passenger), ('not-served', passenger),

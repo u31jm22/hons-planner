@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+miconic,p06.pddl,add,,1,15,0.0005049705505371094,7
+miconic,p07.pddl,add,,1,17,0.000507354736328125,7
+miconic,p08.pddl,add,,1,17,0.00045180320739746094,7
+miconic,p09.pddl,add,,1,20,0.0005550384521484375,7
+miconic,p10.pddl,add,,1,14,0.00043702125549316406,7

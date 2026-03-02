@@ -1,31 +1,49 @@
-(define (domain blocksworld-4ops)
-  (:requirements :strips)
-(:predicates (clear ?x)
-             (on-table ?x)
-             (arm-empty)
-             (holding ?x)
-             (on ?x ?y))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 4 Op-blocks world
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(:action pickup
-  :parameters (?ob)
-  :precondition (and (clear ?ob) (on-table ?ob) (arm-empty))
-  :effect (and (holding ?ob) (not (clear ?ob)) (not (on-table ?ob)) 
-               (not (arm-empty))))
+(define (domain BLOCKS)
+  (:requirements :strips :typing)
+  (:types block)
+  (:predicates (on ?x - block ?y - block)
+	       (ontable ?x - block)
+	       (clear ?x - block)
+	       (handempty)
+	       (holding ?x - block)
+	       )
 
-(:action putdown
-  :parameters  (?ob)
-  :precondition (holding ?ob)
-  :effect (and (clear ?ob) (arm-empty) (on-table ?ob) 
-               (not (holding ?ob))))
+  (:action pick-up
+	     :parameters (?x - block)
+	     :precondition (and (clear ?x) (ontable ?x) (handempty))
+	     :effect
+	     (and (not (ontable ?x))
+		   (not (clear ?x))
+		   (not (handempty))
+		   (holding ?x)))
 
-(:action stack
-  :parameters  (?ob ?underob)
-  :precondition (and (clear ?underob) (holding ?ob))
-  :effect (and (arm-empty) (clear ?ob) (on ?ob ?underob)
-               (not (clear ?underob)) (not (holding ?ob))))
-
-(:action unstack
-  :parameters  (?ob ?underob)
-  :precondition (and (on ?ob ?underob) (clear ?ob) (arm-empty))
-  :effect (and (holding ?ob) (clear ?underob)
-               (not (on ?ob ?underob)) (not (clear ?ob)) (not (arm-empty)))))
+  (:action put-down
+	     :parameters (?x - block)
+	     :precondition (holding ?x)
+	     :effect
+	     (and (not (holding ?x))
+		   (clear ?x)
+		   (handempty)
+		   (ontable ?x)))
+  (:action stack
+	     :parameters (?x - block ?y - block)
+	     :precondition (and (holding ?x) (clear ?y))
+	     :effect
+	     (and (not (holding ?x))
+		   (not (clear ?y))
+		   (clear ?x)
+		   (handempty)
+		   (on ?x ?y)))
+  (:action unstack
+	     :parameters (?x - block ?y - block)
+	     :precondition (and (on ?x ?y) (clear ?x) (handempty))
+	     :effect
+	     (and (holding ?x)
+		   (clear ?y)
+		   (not (clear ?x))
+		   (not (handempty))
+		   (not (on ?x ?y)))))

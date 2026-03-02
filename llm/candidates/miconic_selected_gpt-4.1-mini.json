@@ -1,0 +1,17 @@
+{
+  "candidate_id": "miconic_candidate_1",
+  "coverage": 5,
+  "total_expansions": 29,
+  "total_time": 0.0029878616333007812,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl",
+    "p05.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 5.8,
+  "avg_time": 0.0005975723266601563,
+  "model_name": "gpt-4.1-mini"
+}

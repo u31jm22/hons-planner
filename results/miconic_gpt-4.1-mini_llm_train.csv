@@ -1,0 +1,6 @@
+domain,problem,heuristic,model,coverage,expansions,search_time,plan_length
+miconic,p01.pddl,llm-selected,gpt-4.1-mini,1,6,7.319450378417969e-05,4
+miconic,p02.pddl,llm-selected,gpt-4.1-mini,1,5,4.57763671875e-05,3
+miconic,p03.pddl,llm-selected,gpt-4.1-mini,1,6,4.315376281738281e-05,4
+miconic,p04.pddl,llm-selected,gpt-4.1-mini,1,6,3.886222839355469e-05,4
+miconic,p05.pddl,llm-selected,gpt-4.1-mini,1,6,3.814697265625e-05,4

@@ -2,7 +2,6 @@
 """
 Run the complete candidate generation and selection pipeline for a domain.
 """
-
 import sys
 import os
 import json
@@ -41,8 +40,8 @@ def main() -> int:
     model = OpenAIModel(api_key=api_key, model=model_name, temperature=0.0)
     pipeline = CandidatePipeline(model=model, project_root=project_root)
 
-    # Training problems p01–p05
-        training_problems = ["p01.pddl", "p02.pddl", "p03.pddl", "p04.pddl", "p05.pddl"]
+    # Training problems p01-p05
+    training_problems = ["p01.pddl", "p02.pddl", "p03.pddl", "p04.pddl", "p05.pddl"]
 
     print(f"\n=== Generating candidates for {domain_name} ({model_name}) ===\n")
     candidates = pipeline.generate_candidates(domain_name, num_candidates=5)
@@ -53,7 +52,6 @@ def main() -> int:
         print(f"\nEvaluating {candidate['id']}...")
         result = pipeline.evaluate_candidate(candidate, training_problems)
         evaluation_results.append(result)
-
         print(f"  Coverage: {result['coverage']}/{len(training_problems)}")
         if result["coverage"] > 0:
             print(f"  Avg Expansions: {result['avg_expansions']:.1f}")
@@ -71,7 +69,6 @@ def main() -> int:
     selection_file = selection_dir / f"{domain_name}_selected_{model_name}.json"
     with selection_file.open("w") as f:
         json.dump(best, f, indent=2)
-
     print(f"\nSaved selection to {selection_file}")
     return 0
 
