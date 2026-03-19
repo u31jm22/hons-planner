@@ -1,0 +1,18 @@
+{
+  "candidate_id": "gripper_candidate_2",
+  "coverage": 4,
+  "total_expansions": 80885,
+  "total_time": 42.37323045730591,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl"
+  ],
+  "failed": [
+    "p05.pddl"
+  ],
+  "avg_expansions": 20221.25,
+  "avg_time": 10.593307614326477,
+  "model_name": "llama"
+}

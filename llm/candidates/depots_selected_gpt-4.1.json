@@ -1,0 +1,16 @@
+{
+  "candidate_id": "depots_candidate_1",
+  "coverage": 2,
+  "total_expansions": 20946,
+  "total_time": 2.369682788848877,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl"
+  ],
+  "failed": [
+    "p03.pddl"
+  ],
+  "avg_expansions": 10473.0,
+  "avg_time": 1.1848413944244385,
+  "model_name": "gpt-4.1"
+}

@@ -1,0 +1,17 @@
+{
+  "candidate_id": "blocksworld_candidate_5",
+  "coverage": 5,
+  "total_expansions": 93,
+  "total_time": 0.002588987350463867,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl",
+    "p05.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 18.6,
+  "avg_time": 0.0005177974700927735,
+  "model_name": "gpt-4.1"
+}

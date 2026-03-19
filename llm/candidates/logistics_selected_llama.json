@@ -1,0 +1,17 @@
+{
+  "candidate_id": "logistics_candidate_3",
+  "coverage": 5,
+  "total_expansions": 165809,
+  "total_time": 5.7068610191345215,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl",
+    "p05.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 33161.8,
+  "avg_time": 1.1413722038269043,
+  "model_name": "llama"
+}

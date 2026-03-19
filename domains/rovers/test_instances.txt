@@ -1,0 +1,5 @@
+p06.pddl
+p07.pddl
+p08.pddl
+p09.pddl
+p10.pddl

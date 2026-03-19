@@ -1,0 +1,17 @@
+{
+  "candidate_id": "blocksworld_candidate_4",
+  "coverage": 5,
+  "total_expansions": 1649,
+  "total_time": 0.022337675094604492,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl",
+    "p05.pddl"
+  ],
+  "failed": [],
+  "avg_expansions": 329.8,
+  "avg_time": 0.004467535018920899,
+  "model_name": "llama"
+}

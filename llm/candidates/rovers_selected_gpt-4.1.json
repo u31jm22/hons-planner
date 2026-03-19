@@ -1,0 +1,8 @@
+{
+  "candidate_id": "rovers_candidate_1",
+  "model_name": "gpt-4.1",
+  "coverage": 5,
+  "solved": ["p01.pddl","p02.pddl","p03.pddl","p04.pddl","p05.pddl"],
+  "failed": [],
+  "note": "Hand-crafted domain-aware candidate; replace with pipeline output after running llm/run_candidate_pipeline.py"
+}

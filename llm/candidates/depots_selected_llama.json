@@ -1,0 +1,18 @@
+{
+  "candidate_id": "depots_candidate_1",
+  "coverage": 4,
+  "total_expansions": 20669,
+  "total_time": 3.5301549434661865,
+  "solved": [
+    "p01.pddl",
+    "p02.pddl",
+    "p03.pddl",
+    "p04.pddl"
+  ],
+  "failed": [
+    "p05.pddl"
+  ],
+  "avg_expansions": 5167.25,
+  "avg_time": 0.8825387358665466,
+  "model_name": "llama"
+}
