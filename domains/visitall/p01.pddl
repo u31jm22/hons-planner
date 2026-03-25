@@ -1,0 +1,6 @@
+(define (problem visitall-p01)
+  (:domain grid-visit-all)
+  (:objects r0c0 r0c1 r1c0 r1c1 - place)
+  (:init (at-robot r0c0) (visited r0c0) (connected r0c0 r0c1) (connected r0c1 r0c0) (connected r0c0 r1c0) (connected r1c0 r0c0) (connected r0c1 r1c1) (connected r1c1 r0c1) (connected r1c0 r1c1) (connected r1c1 r1c0))
+  (:goal (and (visited r0c0) (visited r0c1) (visited r1c1) (visited r1c0)))
+)

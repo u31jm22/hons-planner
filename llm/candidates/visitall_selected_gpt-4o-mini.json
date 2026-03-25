@@ -1,0 +1,8 @@
+{
+  "domain": "visitall",
+  "model": "gpt-4o-mini",
+  "candidate_id": "visitall_candidate_5",
+  "selection_method": "best_expansions_on_train",
+  "train_expansions": 65,
+  "note": "Selected based on minimum total expansions on p01-p05 training instances"
+}

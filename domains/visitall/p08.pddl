@@ -1,0 +1,6 @@
+(define (problem visitall-p08)
+  (:domain grid-visit-all)
+  (:objects r0c0 r0c1 r0c2 r1c0 r1c1 r1c2 r2c0 r2c1 r2c2 r3c0 r3c1 r3c2 - place)
+  (:init (at-robot r0c0) (visited r0c0) (connected r0c0 r0c1) (connected r0c1 r0c0) (connected r0c0 r1c0) (connected r1c0 r0c0) (connected r0c1 r0c2) (connected r0c2 r0c1) (connected r0c1 r1c1) (connected r1c1 r0c1) (connected r0c2 r1c2) (connected r1c2 r0c2) (connected r1c0 r1c1) (connected r1c1 r1c0) (connected r1c0 r2c0) (connected r2c0 r1c0) (connected r1c1 r1c2) (connected r1c2 r1c1) (connected r1c1 r2c1) (connected r2c1 r1c1) (connected r1c2 r2c2) (connected r2c2 r1c2) (connected r2c0 r2c1) (connected r2c1 r2c0) (connected r2c0 r3c0) (connected r3c0 r2c0) (connected r2c1 r2c2) (connected r2c2 r2c1) (connected r2c1 r3c1) (connected r3c1 r2c1) (connected r2c2 r3c2) (connected r3c2 r2c2) (connected r3c0 r3c1) (connected r3c1 r3c0) (connected r3c1 r3c2) (connected r3c2 r3c1))
+  (:goal (and (visited r0c0) (visited r1c1) (visited r2c0) (visited r2c1) (visited r1c0) (visited r0c2) (visited r3c1) (visited r0c1) (visited r1c2) (visited r3c2) (visited r2c2) (visited r3c0)))
+)
